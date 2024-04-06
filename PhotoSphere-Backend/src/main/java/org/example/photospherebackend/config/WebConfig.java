@@ -1,4 +1,4 @@
-package com.example.projectflow.config;
+package org.example.photospherebackend.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
