@@ -11,7 +11,8 @@ import {CommonModule} from "@angular/common";
   styleUrl: './users.component.css'
 })
 export class UsersComponent implements OnInit {
-  users: User[] = [];
+  private apiUrl = 'http://localhost:4200/users';
+  users!: User[];
   constructor(public userService: UserService) {}
   ngOnInit() {
     this.userService.getAllUsers().subscribe(users => {
@@ -22,7 +23,18 @@ export class UsersComponent implements OnInit {
   delete(userId: number | undefined) {
     this.userService.deleteUserById(userId).subscribe({
       next: () => {
-        window.location.href = 'http://localhost:4200/users';
+        window.location.href = `${this.apiUrl}`;
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      }
+    });
+  }
+
+  getUserDetails(userId: number | undefined) {
+    this.userService.getUserById(userId).subscribe({
+      next: () => {
+        window.location.href = `${this.apiUrl}/${userId}`;
       },
       error: error => {
         console.error('There was an error!', error);

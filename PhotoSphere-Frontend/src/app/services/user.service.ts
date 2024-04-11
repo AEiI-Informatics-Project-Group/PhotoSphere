@@ -15,6 +15,15 @@ export class UserService {
     return this.http.get<User[]>(this.apiUrl)
   }
 
+  getUserById(userId: number | undefined): Observable<User> {
+    if (userId === undefined) {
+      console.error('User ID is undefined');
+      return throwError(() => new Error('User ID is undefined, cannot get user.'));
+    }
+
+    return this.http.get<User>(`${this.apiUrl}/${userId}`)
+  }
+
   deleteUserById(userId: number | undefined): Observable<any> {
     if (userId === undefined) {
       console.error('User ID is undefined');
