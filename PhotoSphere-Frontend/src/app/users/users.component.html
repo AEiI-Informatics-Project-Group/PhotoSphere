@@ -3,5 +3,8 @@
     <h1> {{ user.firstName }} {{ user.lastName }}</h1>
     <p>Email: {{ user.email }}</p>
     <p>Phone Number: {{ user.phone }}</p>
+    <button (click)="delete(user.userId)">
+      Delete User
+    </button>
   </div>
 </div>

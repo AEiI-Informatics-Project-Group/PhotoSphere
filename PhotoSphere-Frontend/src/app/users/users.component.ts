@@ -12,10 +12,21 @@ import {CommonModule} from "@angular/common";
 })
 export class UsersComponent implements OnInit {
   users: User[] = [];
-  constructor(private userService: UserService) {}
+  constructor(public userService: UserService) {}
   ngOnInit() {
     this.userService.getAllUsers().subscribe(users => {
       this.users = users;
+    });
+  }
+
+  delete(userId: number | undefined) {
+    this.userService.deleteUserById(userId).subscribe({
+      next: () => {
+        window.location.href = 'http://localhost:4200/users';
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      }
     });
   }
 
