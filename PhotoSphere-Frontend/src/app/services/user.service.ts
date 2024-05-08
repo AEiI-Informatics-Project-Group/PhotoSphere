@@ -44,13 +44,13 @@ export class UserService {
 
   blankUser : User = {
   id: 0,
+  username: "",
   firstName: "",
   lastName: "",
   email: "",
-  username: "",
-  dayOfBirth: new Date(),
   password: "",
-  gender: ""
+  gender: "",
+  dayOfBirth: new Date()
 }
 
 }
