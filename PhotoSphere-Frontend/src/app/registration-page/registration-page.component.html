@@ -1,16 +1,46 @@
 <main class="auth-container">
   <section class="form-wrapper">
     <h1 class="welcome-title">Welcome to PhotoSphere!</h1>
-    <form class="auth-form" (submit)="handleSubmit($event)">
+    <form class="auth-form" #signUpForm="ngForm" (ngSubmit)="signUp(signUpForm)">
+
+      <div class="form-group">
+        <label for="userName" class="sr-only">Username:</label>
+        <input type="text" id="userName" class="form-control" aria-label="User Name"  [(ngModel)]="user.username" name="userName" required><!--[(ngModel)]="password" -->
+      </div>
+
+      <div class="form-group">
+        <label for="firstName" class="sr-only">First Name:</label>
+        <input type="text" id="firstName" class="form-control" aria-label="First Name"  [(ngModel)]="user.firstName" name="firstName" required><!--[(ngModel)]="password" -->
+      </div>
+
+      <div class="form-group">
+        <label for="lastName" class="sr-only">Last Name:</label>
+        <input type="text" id="lastName" class="form-control" aria-label="Last Name"  [(ngModel)]="user.lastName" name="lastName" required><!--[(ngModel)]="password" -->
+      </div>
+
       <div class="form-group">
         <label for="email" class="sr-only">Email:</label>
-        <input type="email" id="email" class="form-control" aria-label="Email" placeholder="Email" name="email"><!--[(ngModel)]="email" -->
+        <input type="email" id="email" class="form-control" aria-label="Email"  [(ngModel)]="user.email" name="email" required><!--[(ngModel)]="email" -->
       </div>
+
       <div class="form-group">
         <label for="password" class="sr-only">Password:</label>
-        <input type="password" id="password" class="form-control" aria-label="Password" placeholder="Password" name="password"><!--[(ngModel)]="password" -->
+        <input type="password" id="password" class="form-control" aria-label="Password"  [(ngModel)]="user.password" name="password" required><!--[(ngModel)]="password" -->
       </div>
-      <button type="submit" class="submit-btn" tabindex="0">Create Account</button>
+
+      <div class="form-group">
+        <label for="gender" class="sr-only">Gender:</label>
+        <input type="text" id="gender" class="form-control" aria-label="Gender"  [(ngModel)]="user.gender" name="gender" required><!--[(ngModel)]="password" -->
+      </div>
+
+      <div class="form-group">
+        <label for="dayOfBirth" class="sr-only">Date of Birth:</label>
+        <input type="date" id="dayOfBirth" class="form-control" aria-label="Day of birth"  [(ngModel)]="user.dayOfBirth" name="dayOfBirth" required ><!--[(ngModel)]="password" -->
+      </div>
+
+
+
+      <button type="submit" [disabled]="!signUpForm.valid" class="submit-btn" >Create Account</button>
     </form>
     <div class="separator">OR</div>
     <button class="social-login" (click)="handleGoogleLogin()" tabindex="0">

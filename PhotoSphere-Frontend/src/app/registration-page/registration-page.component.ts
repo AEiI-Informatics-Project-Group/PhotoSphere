@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import {User} from "../models/user.model";
 import {UserService} from "../services/user.service";
-import {RouterLink, RouterOutlet} from "@angular/router";
+import {RouterLink, RouterOutlet, Router} from "@angular/router";
 import {CommonModule} from "@angular/common";
+import {FormsModule, NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-register',
@@ -10,7 +11,8 @@ import {CommonModule} from "@angular/common";
   imports: [
     RouterLink,
     RouterOutlet,
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   templateUrl: './registration-page.component.html',
   styleUrl: './registration-page.component.css'
@@ -18,15 +20,30 @@ import {CommonModule} from "@angular/common";
 export class RegistrationPageComponent {
   email: string = '';
   password: string = '';
+  user: User = this.userService.blankUser;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private router: Router) {
   }
 
-  handleSubmit(event: Event): void {
-    event.preventDefault();
-    console.log('Submitting:', { email: this.email, password: this.password });
-    // Implement submit logic here
+  signUp(signUpForm: NgForm) {
+    console.log('Form Valid:', signUpForm.valid);
+    if (signUpForm.valid) {
+      this.userService.createUser(this.user).subscribe({
+        next: (createdUser) => {
+          console.log('User created successfully:', createdUser);
+          alert('User created successfully');
+          this.router.navigate(['/PopularPhotoPage']);
+          signUpForm.resetForm();
+          this.user = this.userService.blankUser;  // Reset user object to initial state
+        },
+        error: (error) => {
+          console.error('Error creating user:', error);
+          alert('Error creating user');
+        }
+      });
+    }
   }
+
 
   handleGoogleLogin(): void {
     console.log('Google Login initiated');

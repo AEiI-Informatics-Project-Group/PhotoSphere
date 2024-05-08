@@ -4,11 +4,11 @@
     <form class="auth-form" #logInForm="ngForm" (ngSubmit)="logIn(logInForm)">
       <div class="form-group">
         <label for="email" class="sr-only">Email:</label>
-        <input type="email" id="email" class="form-control" aria-label="Email" placeholder="Email" name="email" ngModel required><!--[(ngModel)]="email" -->
+        <input type="email" id="email" class="form-control" aria-label="Email"  name="email" ngModel required><!--[(ngModel)]="email" -->
       </div>
       <div class="form-group">
         <label for="password" class="sr-only">Password:</label>
-        <input type="password" id="password" class="form-control" aria-label="Password" placeholder="Password" name="password" ngModel required><!--[(ngModel)]="password" -->
+        <input type="password" id="password" class="form-control" aria-label="Password"  name="password" ngModel required><!--[(ngModel)]="password" -->
       </div>
 <!--      <button routerLink="/PopularPhotosPage" type="submit" class="submit-btn" tabindex="0">Log in</button>-->
       <button class="submit-btn" tabindex="0" type="submit" [disabled]="logInForm.invalid">Log in</button>

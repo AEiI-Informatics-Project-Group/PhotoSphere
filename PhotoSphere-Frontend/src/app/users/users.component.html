@@ -2,12 +2,11 @@
   <div *ngFor="let user of users">
     <h1> {{ user.firstName }} {{ user.lastName }}</h1>
     <p>Email: {{ user.email }}</p>
-    <p>Phone Number: {{ user.phone }}</p>
-    <button (click)="delete(user.userId)">
+    <button (click)="delete(user.id)">
       Delete User
     </button>
 
-    <button (click)="getUserDetails(user.userId)">
+    <button (click)="getUserDetails(user.id)">
       More Details
     </button>
   </div>

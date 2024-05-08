@@ -25,7 +25,7 @@ export class AuthService {
           if (password === user.password) {
             this.loggedUser = user;
             this.isLoggedIn = true;
-            this.router.navigate(['/']);
+            this.router.navigate(['/PopularPhotoPage']);
           } else {
             //console.error('Incorrect password');
             alert('Incorrect login data');

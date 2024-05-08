@@ -11,6 +11,10 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
+  createUser(user: User): Observable<User> {
+    return this.http.post<User>(this.apiUrl, user);
+  }
+
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl)
   }
@@ -39,13 +43,14 @@ export class UserService {
   }
 
   blankUser : User = {
-  userId: 0,
+  id: 0,
   firstName: "",
   lastName: "",
   email: "",
-  phone: "",
+  username: "",
   dayOfBirth: new Date(),
   password: "",
+  gender: ""
 }
 
 }

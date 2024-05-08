@@ -23,6 +23,6 @@ export const routes: Routes = [
   {path: 'EditPhoto', component: EditPhotoComponent},
   {path: 'ZoomInPhoto', component: ZoomInPhotoComponent},
   {path: 'EditProfile', component: EditProfileComponent},
-  {path: '', redirectTo: 'registration', pathMatch: 'full'},
+  {path: '', redirectTo: 'logging', pathMatch: 'full'},
 ];
 
