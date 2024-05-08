@@ -20,22 +20,24 @@
 
       <div class="form-group">
         <label for="email" class="sr-only">Email:</label>
-        <input type="email" id="email" class="form-control" aria-label="Email"  [(ngModel)]="user.email" name="email" required><!--[(ngModel)]="email" -->
+        <input type="email" id="email" class="form-control" aria-label="email"  [(ngModel)]="user.email" name="email" required><!--[(ngModel)]="email" -->
       </div>
 
       <div class="form-group">
         <label for="password" class="sr-only">Password:</label>
-        <input type="password" id="password" class="form-control" aria-label="Password"  [(ngModel)]="user.password" name="password" required><!--[(ngModel)]="password" -->
+        <input type="password" id="password" class="form-control" aria-label="password"  [(ngModel)]="user.password" name="password" required><!--[(ngModel)]="password" -->
       </div>
 
       <div class="form-group">
         <label for="gender" class="sr-only">Gender:</label>
-        <input type="text" id="gender" class="form-control" aria-label="Gender"  [(ngModel)]="user.gender" name="gender" required><!--[(ngModel)]="password" -->
+        <select id="gender" class="form-control" name="gender" [(ngModel)]="user.gender">
+          <option *ngFor="let gender of gender" [value]="gender">{{ gender }}</option>
+        </select>
       </div>
 
       <div class="form-group">
         <label for="dayOfBirth" class="sr-only">Date of Birth:</label>
-        <input type="date" id="dayOfBirth" class="form-control" aria-label="Day of birth"  [(ngModel)]="user.dayOfBirth" name="dayOfBirth" required ><!--[(ngModel)]="password" -->
+        <input type="date" id="dayOfBirth" class="form-control" aria-label="dayOfBirth"  [(ngModel)]="user.dayOfBirth" name="dayOfBirth" required >
       </div>
 
 

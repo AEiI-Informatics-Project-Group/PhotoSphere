@@ -21,6 +21,7 @@ export class RegistrationPageComponent {
   email: string = '';
   password: string = '';
   user: User = this.userService.blankUser;
+  gender: string[] = ["Male", "Female", "Other"];
 
   constructor(private userService: UserService, private router: Router) {
   }
