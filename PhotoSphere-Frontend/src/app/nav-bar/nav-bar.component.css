@@ -1,0 +1,46 @@
+.main-header {
+  width: 100%;
+  background-color: rgba(216, 190, 249, 0.4);
+  padding: 20px 40px;
+}
+.navigation {
+  display: flex;
+  justify-content: center; /* This will center the navigation items horizontally */
+  align-items: center;
+  width: 100%; /* Ensure it takes full width */
+}
+
+.nav-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center; /* Center the list items horizontally */
+  align-items: center;
+  width: 100%; /* Ensure it takes full width */
+  gap: 20px;
+}
+
+.nav-item {
+  font-size: 24px;
+  color: #000;
+  font-weight: 500;
+  background-color: #7d47ac;
+  border-radius: 20px;
+  padding: 15px 30px;
+  border: none;
+  cursor: pointer;
+}
+.nav-item.search {
+  background-color: #fff;
+  color: #000;
+}
+@media (max-width: 991px) {
+  .main-header {
+    padding: 10px;
+  }
+  .nav-item {
+    white-space: initial;
+    padding: 10px 20px;
+  }
+}

@@ -15,6 +15,11 @@ export class UserService {
     return this.http.get<User[]>(this.apiUrl)
   }
 
+  getUserByEmail(email: string): Observable<User> {
+    const url = `${this.apiUrl}/by-email/${email}`;
+    return this.http.get<User>(url);
+  }
+
   getUserById(userId: number | undefined): Observable<User> {
     if (userId === undefined) {
       console.error('User ID is undefined');
@@ -32,4 +37,15 @@ export class UserService {
 
     return this.http.delete(`${this.apiUrl}/${userId}`)
   }
+
+  blankUser : User = {
+  userId: 0,
+  firstName: "",
+  lastName: "",
+  email: "",
+  phone: "",
+  dayOfBirth: new Date(),
+  password: "",
+}
+
 }
