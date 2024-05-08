@@ -29,7 +29,7 @@ export class RegistrationPageComponent {
   signUp(signUpForm: NgForm) {
     console.log('Form Valid:', signUpForm.valid);
     if (signUpForm.valid) {
-      this.userService.createUser(this.user).subscribe({
+       this.userService.createUser(this.user).subscribe({
         next: (createdUser) => {
           console.log('User created successfully:', createdUser);
           alert('User created successfully');

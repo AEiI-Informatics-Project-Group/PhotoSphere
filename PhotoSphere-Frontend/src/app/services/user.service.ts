@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {catchError, Observable, switchMap, throwError} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {User} from "../models/user.model";
 
 @Injectable({
@@ -13,6 +13,14 @@ export class UserService {
 
   createUser(user: User): Observable<User> {
     return this.http.post<User>(this.apiUrl, user);
+  }
+
+  transformDateToArray(date: Date): number[] {
+    return [
+      date.getFullYear(),       // Get full year
+      date.getMonth() + 1,      // Get month and adjust from 0-indexed to 1-indexed
+      date.getDate()            // Get day of the month
+    ];
   }
 
   getAllUsers(): Observable<User[]> {
@@ -50,7 +58,7 @@ export class UserService {
   email: "",
   password: "",
   gender: "",
-  dayOfBirth: new Date()
+  dayOfBirth: []
 }
 
 }
