@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
+import {CommonModule} from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import {TitlePageComponent} from "./title-page/title-page.component";
+import {RegistrationPageComponent} from "./registration-page/registration-page.component";
+import {LogInComponent} from "./log-in/log-in.component";
+import {PopularPhotoPageComponent} from "./popular-photo-page/popular-photo-page.component";
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, TitlePageComponent],
+  imports: [RouterOutlet, CommonModule, RegistrationPageComponent, LogInComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
