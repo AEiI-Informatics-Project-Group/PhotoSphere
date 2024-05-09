@@ -26,10 +26,17 @@ export class RegistrationPageComponent {
   constructor(private userService: UserService, private router: Router) {
   }
 
+  convertArrayStringsToInts(stringArray: any[]): number[] {
+    return stringArray.map(item => parseInt(item, 10));
+  }
   signUp(signUpForm: NgForm) {
+    const intNumbers = this.convertArrayStringsToInts(signUpForm.value.dayOfBirth);
+    this.user.dayOfBirth = intNumbers;
     console.log('Form Valid:', signUpForm.valid);
     console.log(signUpForm.value.dayOfBirth.split("-"));
-
+    // signUpForm.value.dayOfBirth.split("-");
+    // signUpForm.value.dayOfBirth = this.convertArrayElementsToInt(signUpForm.value.dayOfBirth);
+    // console.log(signUpForm.value.dayOfBirth);
     if (signUpForm.valid) {
        this.userService.createUser(this.user).subscribe({
         next: (createdUser) => {
