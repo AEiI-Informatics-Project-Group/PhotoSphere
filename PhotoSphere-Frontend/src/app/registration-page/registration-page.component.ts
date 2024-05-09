@@ -28,6 +28,8 @@ export class RegistrationPageComponent {
 
   signUp(signUpForm: NgForm) {
     console.log('Form Valid:', signUpForm.valid);
+    console.log(signUpForm.value.dayOfBirth.split("-"));
+
     if (signUpForm.valid) {
        this.userService.createUser(this.user).subscribe({
         next: (createdUser) => {
