@@ -15,13 +15,6 @@ export class UserService {
     return this.http.post<User>(this.apiUrl, user);
   }
 
-  transformDateToArray(date: Date): number[] {
-    return [
-      date.getFullYear(),       // Get full year
-      date.getMonth() + 1,      // Get month and adjust from 0-indexed to 1-indexed
-      date.getDate()            // Get day of the month
-    ];
-  }
 
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl)
