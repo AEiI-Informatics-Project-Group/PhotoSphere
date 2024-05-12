@@ -20,7 +20,7 @@ export class NavBarComponent {
       this.router.navigate(['/PopularPhotoPage'])
     }
     if(item == 'New'){
-      this.router.navigate(['/NewPhotoPage'])
+      this.router.navigate(['/NewPhotosPage'])
     }
     if(item == 'Create'){
       this.router.navigate(['/AddNewPhoto'])
