@@ -4,6 +4,7 @@ import {UserService} from "../services/user.service";
 import {RouterLink, RouterOutlet, Router} from "@angular/router";
 import {CommonModule} from "@angular/common";
 import {FormsModule, NgForm} from "@angular/forms";
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'app-register',
@@ -23,20 +24,19 @@ export class RegistrationPageComponent {
   user: User = this.userService.blankUser;
   gender: string[] = ["Male", "Female", "Other"];
 
-  constructor(private userService: UserService, private router: Router) {
+  constructor(private userService: UserService, private router: Router, private authService: AuthService) {
   }
 
-  convertArrayStringsToInts(stringArray: any[]): number[] {
-    return stringArray.map(item => parseInt(item, 10));
+  private getDateAsArray(dateString: string): number[] {
+    const parts = dateString.split('-').map(part => parseInt(part, 10));
+    return parts; // parts will be an array like [year, month, day]
   }
+
   signUp(signUpForm: NgForm) {
-    const intNumbers = this.convertArrayStringsToInts(signUpForm.value.dayOfBirth);
-    this.user.dayOfBirth = intNumbers;
-    console.log('Form Valid:', signUpForm.valid);
-    console.log(signUpForm.value.dayOfBirth.split("-"));
-    // signUpForm.value.dayOfBirth.split("-");
-    // signUpForm.value.dayOfBirth = this.convertArrayElementsToInt(signUpForm.value.dayOfBirth);
-    // console.log(signUpForm.value.dayOfBirth);
+    console.log(signUpForm.value.dayOfBirth);
+    const dateArray = this.getDateAsArray(signUpForm.value.dayOfBirth);
+    signUpForm.value.dayOfBirth = dateArray;
+    console.log('Date as Array:', dateArray);
     if (signUpForm.valid) {
        this.userService.createUser(this.user).subscribe({
         next: (createdUser) => {
@@ -57,7 +57,7 @@ export class RegistrationPageComponent {
 
   handleGoogleLogin(): void {
     console.log('Google Login initiated');
-    // Implement the Google login logic here
+    this.authService.googleLogin();
   }
 }
 
