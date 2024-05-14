@@ -1,10 +1,10 @@
 <header class="menu-bar">
   <app-nav-bar></app-nav-bar>
 </header>
-<section class="profile-section">
-  <main class="content">
-    <section class="posts-section">
-      <div class="profile-navigation">
+<section class = "profile-section">
+  <main class = "content">
+    <section class = "profile-nav-bar">
+      <div class = "profile-navigation">
         <button class="navigation-button public-posts">Public posts</button>
         <button class="navigation-button private-posts">Private posts</button>
       </div>
@@ -19,28 +19,4 @@
     </section>
   </main>
 </section>
-<section class="profile-section">
-  <div class="profile-header">{{ profileDescription }}</div>
-  <div class="filter-nav">
-    <button (click)="onFilterClick()" class="filter-button">Filter
-      <img src="{{filterIconSrc}}" alt="Filter" class="filter-icon"/>
-    </button>
-  </div>
-  <section class="filter-view">
-    <hr class="separator"/>
-    <h2 class="filter-name">{{ filterName }}</h2>
-    <hr class="separator"/>
-  </section>
-  <main class="content-wrapper">
-    <article (click)="onImageArticleClick()" class="image-article">
-      <img src="{{imageSrc}}" alt="Scenic view" class="article-image"/>
-    </article>
-    <article (click)="onImageArticleClick()" class="image-article">
-      <img src="{{imageSrc}}" alt="Scenic view" class="article-image"/>
-    </article>
-    <article (click)="onImageArticleClick()" class="image-article">
-      <img src="{{imageSrc}}" alt="Scenic view" class="article-image"/>
-    </article>
 
-  </main>
-</section>
