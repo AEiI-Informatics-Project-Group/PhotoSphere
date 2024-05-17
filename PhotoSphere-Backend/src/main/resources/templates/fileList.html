@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>File List</title>
+</head>
+<body>
+<h1>Files in S3</h1>
+<ul>
+    <li th:each="file : ${files}">
+        <a th:href="@{'/files/view/' + ${file}}" th:text="${file}">File</a>
+        <a th:href="@{'/files/download/' + ${file}}">Download</a>
+    </li>
+</ul>
+</body>
+</html>
