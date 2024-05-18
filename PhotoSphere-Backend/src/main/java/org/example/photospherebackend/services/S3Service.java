@@ -43,5 +43,9 @@ public class S3Service {
                 .map(s -> s.getKey())
                 .collect(Collectors.toList());
     }
+
+    public void deleteFile(String fileName) {
+        amazonS3.deleteObject(bucketName, fileName);
+    }
 }
 

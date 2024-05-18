@@ -16,6 +16,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.util.List;
 
+import static org.springframework.http.ResponseEntity.noContent;
+
 @Controller
 @RequestMapping("/files")
 public class FileController {
@@ -60,6 +62,12 @@ public class FileController {
                 .contentType(MediaType.parseMediaType(s3Object.getObjectMetadata().getContentType()))
                 .contentLength(s3Object.getObjectMetadata().getContentLength())
                 .body(new InputStreamResource(s3Object.getObjectContent()));
+    }
+
+    @DeleteMapping("/delete/{fileName}")
+    public ResponseEntity<Void> deleteFile(@PathVariable String fileName) {
+        s3Service.deleteFile(fileName);
+        return noContent().build();
     }
 }
 

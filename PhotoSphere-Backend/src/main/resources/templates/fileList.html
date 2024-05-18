@@ -72,6 +72,7 @@
             border-radius: 10px;
             text-align: center;
             transition: transform 0.3s;
+            position: relative;
         }
 
         .grid-item:hover {
@@ -88,6 +89,21 @@
 
         .thumbnail:hover {
             filter: brightness(1);
+        }
+
+        .delete-icon {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 24px; /* Increase the size of the icon */
+            color: #ff1744;
+            cursor: pointer;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .delete-icon:hover {
+            color: #ff4569;
+            transform: scale(1.2);
         }
 
         a {
@@ -108,6 +124,7 @@
             margin-bottom: 20px;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
 <h1>Files in S3</h1>
@@ -126,13 +143,18 @@
 </div>
 
 <div class="grid-container" id="fileList">
-    <div th:each="file : ${files}" th:data-type="${file.endsWith('.mp4') ? 'video' : 'image'}" class="grid-item">
-        <img th:if="${file.endsWith('.jpg') or file.endsWith('.jpeg') or file.endsWith('.png')}"
-             th:src="@{'/files/view/' + ${file}}" class="thumbnail">
-        <video th:if="${file.endsWith('.mp4')}" class="thumbnail" controls>
-            <source th:src="@{'/files/view/' + ${file}}" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+    <div th:each="file : ${files}" th:data-type="${file.endsWith('.mp4') ? 'video' : 'image'}" class="grid-item" th:data-filename="${file}">
+        <div class="thumbnail-container">
+            <span class="delete-icon" onclick="deleteFile(this)">
+                <i class="fas fa-trash-alt"></i>
+            </span>
+            <img th:if="${file.endsWith('.jpg') or file.endsWith('.jpeg') or file.endsWith('.png')}"
+                 th:src="@{'/files/view/' + ${file}}" class="thumbnail">
+            <video th:if="${file.endsWith('.mp4')}" class="thumbnail" controls>
+                <source th:src="@{'/files/view/' + ${file}}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
         <div>
             <a th:href="@{'/files/view/' + ${file}}" th:text="${file}">File</a>
         </div>
@@ -153,6 +175,21 @@
                 item.style.display = 'none';
             }
         });
+    }
+
+    function deleteFile(element) {
+        const fileName = element.closest('.grid-item').getAttribute('data-filename');
+        if (confirm('Are you sure you want to delete this file?')) {
+            fetch('/files/delete/' + encodeURIComponent(fileName), {
+                method: 'DELETE'
+            }).then(response => {
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    alert('Failed to delete file.');
+                }
+            });
+        }
     }
 </script>
 
