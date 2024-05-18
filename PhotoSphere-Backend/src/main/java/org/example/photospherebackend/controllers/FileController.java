@@ -9,12 +9,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.List;
+
+import static org.springframework.http.ResponseEntity.noContent;
 
 @Controller
 @RequestMapping("/files")
@@ -28,6 +30,17 @@ public class FileController {
         List<String> files = s3Service.listFiles();
         model.addAttribute("files", files);
         return "fileList";
+    }
+
+    @PostMapping("/upload")
+    public String uploadFile(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+        try {
+            s3Service.uploadFile(file);
+            redirectAttributes.addFlashAttribute("message", "File uploaded successfully: " + file.getOriginalFilename());
+        } catch (IOException e) {
+            redirectAttributes.addFlashAttribute("message", "File upload failed: " + file.getOriginalFilename());
+        }
+        return "redirect:/files";
     }
 
     @GetMapping("/download/{fileName}")
@@ -49,6 +62,12 @@ public class FileController {
                 .contentType(MediaType.parseMediaType(s3Object.getObjectMetadata().getContentType()))
                 .contentLength(s3Object.getObjectMetadata().getContentLength())
                 .body(new InputStreamResource(s3Object.getObjectContent()));
+    }
+
+    @DeleteMapping("/delete/{fileName}")
+    public ResponseEntity<Void> deleteFile(@PathVariable String fileName) {
+        s3Service.deleteFile(fileName);
+        return noContent().build();
     }
 }
 
