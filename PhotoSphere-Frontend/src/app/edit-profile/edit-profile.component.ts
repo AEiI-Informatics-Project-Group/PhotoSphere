@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
-import {CommonModule} from "@angular/common";
+import {CommonModule, NgIf} from "@angular/common";
 import {NavBarComponent} from "../nav-bar/nav-bar.component";
 import {User} from "../models/user.model";
 import {UserService} from "../services/user.service";
@@ -13,7 +13,8 @@ import {AuthService} from "../services/auth.service";
   imports: [
     ReactiveFormsModule,
     NavBarComponent,
-    FormsModule
+    FormsModule,
+    NgIf
   ],
   templateUrl: './edit-profile.component.html',
   styleUrl: './edit-profile.component.css'

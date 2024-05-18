@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
 import {NavBarComponent} from "../nav-bar/nav-bar.component";
+import {NgIf} from "@angular/common";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-edit-photo',
@@ -8,13 +10,22 @@ import {NavBarComponent} from "../nav-bar/nav-bar.component";
   imports: [
     FormsModule,
     NavBarComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgIf
   ],
   templateUrl: './edit-photo.component.html',
   styleUrl: './edit-photo.component.css'
 })
 export class EditPhotoComponent {
-  editedPhoto: any;
+  editedPhoto: string | null = null;
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.editedPhoto = params['photo'] || null;
+    });
+  }
 
   onEditPost(editPhotoForm: NgForm): void {
 
@@ -28,7 +39,9 @@ export class EditPhotoComponent {
     });
   }
 
-  onItemClick(delete1: string): void {
-
+  onItemClick(item: string): void {
+    console.log(`${item} clicked`);
+    if (item == 'Delete') {
+    }
   }
 }

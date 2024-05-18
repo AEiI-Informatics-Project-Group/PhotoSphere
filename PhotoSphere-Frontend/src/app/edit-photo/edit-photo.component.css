@@ -27,6 +27,7 @@
   align-items: flex-start;
   margin-bottom: 20px;
 }
+
 .new-photo-container {
   display: flex;
   flex-direction: column;
@@ -34,13 +35,14 @@
   margin-right: auto;
   margin-left: auto;
 }
+
 .new-photo-header {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-
 }
+
 .new-photo-placeholder {
   background-color: rgba(217, 217, 217, 0.62);
   width: 400px;
@@ -80,6 +82,7 @@
   text-align: right;
   margin-right: 20px;
 }
+
 .label-privacy {
   margin-top: 50px;
   font-size: 18px;
@@ -87,6 +90,7 @@
   width: 420px;
   text-align: right;
 }
+
 .input-field, .description-field {
   padding: 10px;
   border-radius: 10px;
@@ -94,6 +98,7 @@
   font-size: 16px;
   width: 100%;
 }
+
 .description-field {
   height: 150px;
   resize: none;
@@ -135,6 +140,7 @@
   font-size: 18px;
   color: #000;
 }
+
 input[type="checkbox"] {
   width: 20px;
   height: 20px;

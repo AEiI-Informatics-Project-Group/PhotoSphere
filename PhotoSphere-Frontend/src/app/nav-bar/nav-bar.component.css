@@ -1,9 +1,8 @@
-
 .navigation {
   display: flex;
-  justify-content: center; /* This will center the navigation items horizontally */
+  justify-content: center;
   align-items: center;
-  width: 100%; /* Ensure it takes full width */
+  width: 100%;
 }
 
 .nav-list {
@@ -13,7 +12,7 @@
   padding: 20px 40px;
   list-style-type: none;
   margin: 0;
-  width: 100%; /* Ensure it takes full width */
+  width: 100%;
   align-items: center;
   gap: 20px;
 }

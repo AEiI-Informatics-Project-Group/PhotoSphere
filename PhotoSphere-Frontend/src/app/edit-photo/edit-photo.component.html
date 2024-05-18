@@ -10,10 +10,8 @@
             <img *ngIf="editedPhoto" [src]="editedPhoto" alt="Selected Photo" class="photo-preview">
           </div>
           <label class="label-privacy">Do you want everyone to see your photo?</label>
-
         </header>
       </div>
-
       <form class="edit-photo-form" #editPhotoForm="ngForm" (ngSubmit)="onEditPost(editPhotoForm)">
         <div class="form-group">
           <label for="title" class="label-name">Title</label>
@@ -46,7 +44,7 @@
       </form>
     </section>
     <div class="button-container">
-      <button type="submit" class="save-button" (click)="onEditPost(editPhotoForm)">SAVE CHANGES!</button>
+      <button type="submit" class="save-button" (click)="onEditPost(editPhotoForm)">SAVE CHANGES</button>
       <button class="save-button delete" tabindex="0" (click)="onItemClick('Delete')">DELETE YOUR POST</button>
     </div>
   </main>

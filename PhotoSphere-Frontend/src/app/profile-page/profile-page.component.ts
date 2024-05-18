@@ -14,7 +14,6 @@ import {AuthService} from "../services/auth.service";
 })
 export class ProfilePageComponent {
 
-  // constructor(protected authService: AuthService){}
   constructor(private router: Router, protected authService: AuthService) {}
 
   filterIconSrc: string = 'assets/icons/filter_category.png';
@@ -25,24 +24,25 @@ export class ProfilePageComponent {
   onNavButtonClick(item: string): void {
     console.log(`${item} clicked`);
     if(item == 'Public') {
-      this.router.navigate(['/PublicPhotos'])
+      this.router.navigate(['/PublicPhotos']);
     }
     if(item == 'Private') {
-      this.router.navigate(['/PrivatePhotos'])
+      this.router.navigate(['/PrivatePhotos']);
     }
     if(item == 'Saved') {
-      this.router.navigate(['/SavedPhotos'])
+      this.router.navigate(['/SavedPhotos']);
     }
     if(item == 'Edit') {
-      this.router.navigate(['/EditProfile'])
+      this.router.navigate(['/EditProfile']);
     }
   }
   onFilterClick(): void {
     console.log('Filter button clicked');
   }
 
-  onImageArticleClick(): void {
+  onImageArticleClick(imageSrc: string): void {
     console.log('Image article clicked');
+    this.router.navigate(['/ZoomInPhoto'], { queryParams: { photo: imageSrc } });
   }
 
   onPlaceholderClick(): void {

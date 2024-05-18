@@ -9,13 +9,11 @@
         <button class="navigation-button private-posts" (click)="onNavButtonClick('Private')">Private posts</button>
       </div>
     </section>
-
     <div class = "profile-center">
       <div class="profile-image">
         <img src="assets/icons/profile_image_test.jpg" alt="Profile image" class="profile-image-element" />
       </div>
     </div>
-
     <section class="profile-navigation">
       <div class = "profile-nav-bar-item">
         <button class="navigation-button saved" (click)="onNavButtonClick('Saved')">Saved</button>
@@ -39,17 +37,17 @@
     </div>
   </section>
   <main class="content-wrapper">
-    <article (click)="onImageArticleClick()" class="image-article">
-      <div class="article-image placeholder"></div>
-      <!--<img src="{{imageSrc}}" alt="Scenic view" class="article-image"/>-->
+    <article (click)="onImageArticleClick(imageSrc)" class="image-article">
+<!--      <div class="article-image placeholder"></div>-->
+      <img src="{{imageSrc}}" alt="Scenic view" class="article-image"/>
     </article>
-    <article (click)="onImageArticleClick()" class="image-article">
+    <article (click)="onImageArticleClick('')" class="image-article">
       <div class="article-image placeholder"></div>
-      <!--<img src="{{imageSrc}}" alt="Scenic view" class="article-image"/>-->
+<!--      <img src="{{imageSrc}}" alt="Scenic view" class="article-image"/>-->
     </article>
-    <article (click)="onImageArticleClick()" class="image-article">
+    <article (click)="onImageArticleClick('')" class="image-article">
       <div class="article-image placeholder"></div>
-      <!--<img src="{{imageSrc}}" alt="Scenic view" class="article-image"/>-->
+<!--      <img src="{{imageSrc}}" alt="Scenic view" class="article-image"/>-->
     </article>
   </main>
 </section>

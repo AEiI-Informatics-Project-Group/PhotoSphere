@@ -10,7 +10,8 @@ import {CommonModule, NgIf} from "@angular/common";
   imports: [
     NavBarComponent,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgIf
   ],
   templateUrl: './add-new-photo.component.html',
   styleUrl: './add-new-photo.component.css'
