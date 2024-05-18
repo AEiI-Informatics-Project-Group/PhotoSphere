@@ -29,13 +29,13 @@ spring:
       max-file-size: 100MB
       max-request-size: 100MB
 
-cloud:
-  aws:
-    s3:
-      endpoint: http://localhost:{{YYYY}}
-      path-style-access: true
-    credentials:
-      access-key: {{minio-username}}
-      secret-key: {{minio-password}}
-    region:
-      static: {{region}}
+#cloud:
+#  aws:
+#    s3:
+#      endpoint: http://localhost:{{YYYY}}
+#      path-style-access: true
+#    credentials:
+#      access-key: {{minio-username}}
+#      secret-key: {{minio-password}}
+#    region:
+#      static: {{region}}
