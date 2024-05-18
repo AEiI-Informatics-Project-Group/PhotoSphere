@@ -15,7 +15,6 @@
   margin: 0;
   width: 100%; /* Ensure it takes full width */
   align-items: center;
-
   gap: 20px;
 }
 
@@ -24,20 +23,20 @@
   color: #000;
   font-weight: 500;
   background-color: #7d47ac;
-  border-radius: 50px;
+  border-radius: 20px;
   padding: 20px 40px;
   border: none;
   cursor: pointer;
 }
 .nav-item.search {
   font-family: Inter, sans-serif;
-  border-radius: 50px;
+  border-radius: 20px;
   background-color: #fff;
   color: #000;
   align-self: stretch;
-  padding: 15px 40px;
+  padding: 20px 40px;
   border: 1px solid #ccc;
-  width: 100%;
+  width: 700px;
 }
 @media (max-width: 991px) {
   .main-header {
