@@ -21,7 +21,7 @@ public class S3Service {
     @Autowired
     private AmazonS3 amazonS3;
 
-    private final String bucketName = "photosphere-bucket";
+    private final String bucketName = "photo-test";
 
     public void uploadFile(MultipartFile file) throws IOException {
         ObjectMetadata metadata = new ObjectMetadata();
