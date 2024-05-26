@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import {Router} from "@angular/router";
-import {NavBarComponent} from "../nav-bar/nav-bar.component";
-import {AuthService} from "../services/auth.service";
+import { Router } from "@angular/router";
+import { NavBarComponent } from "../nav-bar/nav-bar.component";
+import { AuthService } from "../services/auth.service";
 
 @Component({
   selector: 'app-profile-page',

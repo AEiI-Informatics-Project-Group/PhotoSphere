@@ -43,6 +43,11 @@ export class UserService {
     return this.http.delete(`${this.apiUrl}/${userId}`)
   }
 
+  updateUser(user: User): Observable<User> {
+    const url = `${this.apiUrl}/${user.id}`;
+    return this.http.post<User>(this.apiUrl, user);
+  }
+
   blankUser : User = {
   id: 0,
   username: "",

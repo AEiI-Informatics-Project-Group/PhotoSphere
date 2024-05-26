@@ -20,10 +20,9 @@ import {AuthService} from "../services/auth.service";
   styleUrl: './edit-profile.component.css'
 })
 export class EditProfileComponent {
-  user: User = this.userService.blankUser;
   selectedPhoto: string | ArrayBuffer | null = null;
 
-  constructor(private userService: UserService) {
+  constructor(protected authService: AuthService, private userService: UserService, private router: Router) {
   }
 
   onFileSelected(event: Event): void {
@@ -46,7 +45,16 @@ export class EditProfileComponent {
   }
 
   onSave(profileEditForm: NgForm): void {
-
+    this.userService.updateUser(this.authService.loggedUser).subscribe({
+      next: updatedUser => {
+        this.authService.loggedUser = updatedUser;
+      },
+      error: err => {
+        console.error('Error updating user', err);
+      }
+    });
+    this.router.navigate(['/ProfilePage']);
   }
 
+  protected readonly update = this.onSave;
 }
