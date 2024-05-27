@@ -21,6 +21,19 @@ spring:
     hibernate:
       ddl-auto: create-drop
     defer-datasource-initialization: true
+#  jpa:
+#    hibernate:
+#      ddl-auto: none  # Disable the default schema generation
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
+#      javax:
+#        persistence:
+#          schema-generation:
+#            create-source: metadata
+#            scripts:
+#              action: create
+#              create-target: create.sql
   sql:
     init:
       mode: always
@@ -28,6 +41,10 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
+jwt:
+  rsa-private-key: classpath:certs/privateKey.pem
+  rsa-public-key: classpath:certs/publicKey.pem
+
 
 #cloud:
 #  aws:
