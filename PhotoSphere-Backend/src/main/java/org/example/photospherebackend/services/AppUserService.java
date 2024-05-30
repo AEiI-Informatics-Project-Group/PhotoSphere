@@ -53,7 +53,7 @@ public class AppUserService {
         return appUserRepository.save(user);
     }
 
-    public void deleteUser(Long id) {
+    public void deleteUserById(Long id) {
         appUserRepository.deleteById(id);
     }
 

@@ -4,7 +4,6 @@ import org.example.photospherebackend.models.AppUser;
 import org.example.photospherebackend.services.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ReflectionUtils;
@@ -79,7 +78,7 @@ public class AppUserController {
         Optional<AppUser> existingUser = appUserService.getUserById(id);
         if (existingUser.isPresent()) {
             appUserService.deleteUserImage(existingUser.get().getId());
-            appUserService.deleteUser(id);
+            appUserService.deleteUserById(id);
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();
