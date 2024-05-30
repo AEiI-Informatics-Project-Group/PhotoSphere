@@ -43,6 +43,11 @@ export class UserService {
     return this.http.delete(`${this.apiUrl}/${userId}`)
   }
 
+  downloadUserImage(userId: number): Observable<Blob> {
+    const url = `${this.apiUrl}/${userId}/download-image`;
+    return this.http.get(url, { responseType: 'blob' });
+  }
+
   blankUser : User = {
   id: 0,
   username: "",

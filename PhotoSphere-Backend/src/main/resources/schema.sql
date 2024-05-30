@@ -8,5 +8,5 @@ CREATE TABLE IF NOT EXISTS app_user
     password     VARCHAR(255) NOT NULL,
     gender       VARCHAR(255),
     day_of_birth DATE,
-    image    VARCHAR(255)
+    image        VARCHAR(255)
 );
