@@ -2,6 +2,9 @@ package org.example.photospherebackend.services;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.util.IOUtils;
 import org.example.photospherebackend.models.AppUser;
 import org.example.photospherebackend.repositories.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -101,5 +107,24 @@ public class AppUserService {
     private void deleteImageFromS3(String imageUrl) {
         String fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
         amazonS3.deleteObject(bucketName, imageUrl);
+    }
+
+    public byte[] downloadUserImage(String imagePath) {
+        S3Object s3Object = amazonS3.getObject(bucketName, imagePath);
+        S3ObjectInputStream inputStream = s3Object.getObjectContent();
+        try {
+            return IOUtils.toByteArray(inputStream);
+        } catch (IOException e) {
+            throw new RuntimeException("Error downloading image from S3", e);
+        }
+    }
+
+    public String getMimeType(String imagePath) {
+        try {
+            Path path = Paths.get(imagePath);
+            return Files.probeContentType(path);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to determine MIME type", e);
+        }
     }
 }
