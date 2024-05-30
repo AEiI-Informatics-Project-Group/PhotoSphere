@@ -78,6 +78,7 @@ public class AppUserController {
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         Optional<AppUser> existingUser = appUserService.getUserById(id);
         if (existingUser.isPresent()) {
+            appUserService.deleteUserImage(existingUser.get().getId());
             appUserService.deleteUser(id);
             return ResponseEntity.ok().build();
         } else {
@@ -138,7 +139,7 @@ public class AppUserController {
                         .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + imagePath.substring(imagePath.lastIndexOf('/') + 1) + "\"")
                         .body(imageBytes);
             } else {
-                return ResponseEntity.noContent().build(); // No image available
+                return ResponseEntity.noContent().build();
             }
         } else {
             return ResponseEntity.notFound().build();
