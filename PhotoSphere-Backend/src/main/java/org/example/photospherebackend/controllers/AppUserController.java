@@ -3,7 +3,9 @@ package org.example.photospherebackend.controllers;
 import org.example.photospherebackend.models.AppUser;
 import org.example.photospherebackend.services.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -83,6 +85,21 @@ public class AppUserController {
         }
     }
 
+    @GetMapping("/{id}/image")
+    public ResponseEntity<String> getUserImage(@PathVariable Long id) {
+        Optional<AppUser> existingUser = appUserService.getUserById(id);
+        if (existingUser.isPresent()) {
+            String imageUrl = existingUser.get().getImage();
+            if (imageUrl != null) {
+                return ResponseEntity.ok(imageUrl);
+            } else {
+                return ResponseEntity.noContent().build(); // No image available
+            }
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PostMapping("/{id}/upload-image")
     public ResponseEntity<String> uploadUserImage(@PathVariable Long id, @RequestParam("image") MultipartFile image) throws IOException {
         Optional<AppUser> existingUser = appUserService.getUserById(id);
@@ -103,6 +120,26 @@ public class AppUserController {
         if (existingUser.isPresent()) {
             appUserService.deleteUserImage(existingUser.get().getId());
             return ResponseEntity.ok("Image deleted successfully");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/{id}/download-image")
+    public ResponseEntity<byte[]> downloadUserImage(@PathVariable Long id) {
+        Optional<AppUser> existingUser = appUserService.getUserById(id);
+        if (existingUser.isPresent()) {
+            String imagePath = existingUser.get().getImage();
+            if (imagePath != null && !imagePath.isEmpty()) {
+                byte[] imageBytes = appUserService.downloadUserImage(imagePath);
+                String mimeType = appUserService.getMimeType(imagePath);
+                return ResponseEntity.ok()
+                        .contentType(MediaType.parseMediaType(mimeType))
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + imagePath.substring(imagePath.lastIndexOf('/') + 1) + "\"")
+                        .body(imageBytes);
+            } else {
+                return ResponseEntity.noContent().build(); // No image available
+            }
         } else {
             return ResponseEntity.notFound().build();
         }
