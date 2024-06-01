@@ -7,7 +7,7 @@ import {User} from "../models/user.model";
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://localhost:8080/users';
+  private apiUrl = 'http://localhost:8080/api/users';
 
   constructor(private http: HttpClient) {}
 
@@ -53,6 +53,11 @@ export class UserService {
     return this.http.get(url, { responseType: 'blob' });
   }
 
+  uploadUserImage(userId: number, formData: FormData): Observable<string> {
+    const url = `${this.apiUrl}/${userId}/upload-image`;
+    return this.http.post<string>(url, formData);
+  }
+
   blankUser : User = {
   id: 0,
   username: "",
@@ -61,7 +66,8 @@ export class UserService {
   email: "",
   password: "",
   gender: "",
-  dayOfBirth: []
+  dayOfBirth: [],
+  image: ""
 }
 
 }

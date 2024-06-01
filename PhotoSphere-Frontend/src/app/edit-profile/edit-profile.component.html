@@ -7,7 +7,7 @@
       <div class="profile-photo-container">
         <header class="profile-photo-header">
           <div *ngIf="!selectedPhoto" class="profile-photo-placeholder">
-            <p>Profile photo</p>
+            <img [src]="profileImageSrc" alt="Profile photo" class="photo-preview">
           </div>
           <img *ngIf="selectedPhoto" [src]="selectedPhoto" alt="Selected Photo" class="photo-preview">
           <label class="upload-label" for="upload-photo">Choose new profile photo:</label>
@@ -15,7 +15,6 @@
           <button class="upload-button" (click)="triggerFileInput()">UPLOAD PHOTO</button>
         </header>
       </div>
-
       <form class="profile-edit-form" #profileEditForm="ngForm" (ngSubmit)="onSave(profileEditForm)">
         <div class="form-group">
           <label for="firstName" class="label-name">First name</label>

@@ -80,4 +80,5 @@ export class AuthService {
   logOut() {
     this.isLoggedIn = false;
   }
+
 }

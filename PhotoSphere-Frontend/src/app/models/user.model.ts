@@ -7,4 +7,5 @@ export interface User {
   password: string;
   gender: string;
   dayOfBirth: [];
+  image: string;
 }
