@@ -48,6 +48,11 @@ export class UserService {
     return this.http.post<User>(this.apiUrl, user);
   }
 
+  downloadUserImage(userId: number): Observable<Blob> {
+    const url = `${this.apiUrl}/${userId}/download-image`;
+    return this.http.get(url, { responseType: 'blob' });
+  }
+
   blankUser : User = {
   id: 0,
   username: "",
