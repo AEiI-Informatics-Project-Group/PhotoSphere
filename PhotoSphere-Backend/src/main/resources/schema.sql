@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS app_user
     password     VARCHAR(255) NOT NULL,
     gender       VARCHAR(255),
     day_of_birth DATE,
+    description  TEXT,
     image        VARCHAR(255)
 );
 
@@ -20,6 +21,8 @@ CREATE TABLE IF NOT EXISTS post
     caption     TEXT,
     image_url   VARCHAR(255),
     category    VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    is_private  BOOLEAN NOT NULL,
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

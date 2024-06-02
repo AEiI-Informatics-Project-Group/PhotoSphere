@@ -37,6 +37,9 @@ public class AppUser {
     @Column(name = "day_of_birth")
     private LocalDate dayOfBirth;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "image")
     private String image;
 
