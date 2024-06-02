@@ -31,6 +31,12 @@ public class Post {
     @Column(name = "category", nullable = false)
     private String category;
 
+    @Column(name = "description", nullable = false)
+    private String description;
+
+    @Column(name = "is_private", nullable = false)
+    private boolean isPrivate;
+
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")
     private Instant createdAt;

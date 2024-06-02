@@ -96,6 +96,7 @@ public class PostController {
     public ResponseEntity<String> uploadPostImage(@PathVariable Long id, @RequestParam("image") MultipartFile image) throws IOException {
         Optional<Post> existingPost = postService.getPostById(id);
         if (existingPost.isPresent()) {
+            postService.deletePostImage(existingPost.get().getId());
             Long userId = existingPost.get().getUser().getId();
             String imageUrl = postService.uploadPostImage(image, id, userId);
             existingPost.get().setImageUrl(imageUrl);
@@ -140,18 +141,23 @@ public class PostController {
     private PostDTO convertToDTO(Post post) {
         PostDTO postDTO = new PostDTO();
         postDTO.setId(post.getId());
+        postDTO.setUserId(post.getUser().getId());
         postDTO.setCaption(post.getCaption());
         postDTO.setImageUrl(post.getImageUrl());
         postDTO.setCategory(post.getCategory());
-        postDTO.setUserId(post.getUser().getId());
+        postDTO.setDescription(post.getDescription());
+        postDTO.setPrivate(post.isPrivate());
         return postDTO;
     }
 
     private Post convertToEntity(PostDTO postDTO) {
         Post post = new Post();
+        post.setId(postDTO.getId());
         post.setCaption(postDTO.getCaption());
         post.setImageUrl(postDTO.getImageUrl());
         post.setCategory(postDTO.getCategory());
+        post.setDescription(postDTO.getDescription());
+        post.setPrivate(postDTO.isPrivate());
         return post;
     }
 

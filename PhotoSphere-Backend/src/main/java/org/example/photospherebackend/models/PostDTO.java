@@ -10,5 +10,7 @@ public class PostDTO {
     private String caption;
     private String imageUrl;
     private String category;
+    private String description;
+    private boolean isPrivate;
     private Long userId;
 }
