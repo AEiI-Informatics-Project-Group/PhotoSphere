@@ -11,7 +11,7 @@
     </section>
     <div class = "profile-center">
       <div class="profile-image">
-        <img src="assets/icons/profile_image_test.jpg" alt="Profile image" class="profile-image-element" />
+        <img [src]="profileImageSrc" alt="Profile image" class="profile-image-element" />
       </div>
     </div>
     <section class="profile-navigation">
@@ -22,8 +22,8 @@
     </section>
   </main>
   <header class="profile-info">
-    <h2 class="username">Username</h2>
-    <p class="profile-description">Profile description</p>
+    <h2 class="username"> {{ authService.loggedUser.username }} </h2>
+    <p class="profile-description">{{ authService.loggedUser.description }}</p>
   </header>
   <section class="filter-section">
     <div class="filter-nav">

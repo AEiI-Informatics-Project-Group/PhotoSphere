@@ -43,9 +43,19 @@ export class UserService {
     return this.http.delete(`${this.apiUrl}/${userId}`)
   }
 
+  updateUser(user: User): Observable<User> {
+    const url = `${this.apiUrl}/${user.id}`;
+    return this.http.put<User>(this.apiUrl, user);
+  }
+
   downloadUserImage(userId: number): Observable<Blob> {
     const url = `${this.apiUrl}/${userId}/download-image`;
     return this.http.get(url, { responseType: 'blob' });
+  }
+
+  uploadUserImage(userId: number, formData: FormData): Observable<string> {
+    const url = `${this.apiUrl}/${userId}/upload-image`;
+    return this.http.post<string>(url, formData);
   }
 
   blankUser : User = {
@@ -56,7 +66,9 @@ export class UserService {
   email: "",
   password: "",
   gender: "",
-  dayOfBirth: []
+  dayOfBirth: [],
+  description: "",
+  image: ""
 }
 
 }

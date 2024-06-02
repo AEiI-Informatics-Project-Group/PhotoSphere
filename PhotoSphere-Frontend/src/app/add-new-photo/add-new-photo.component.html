@@ -6,16 +6,15 @@
     <section class="photo-header">
       <div class="new-photo-container">
         <header class="new-photo-header">
-          <div class="new-photo-placeholder" is="photo-placeholder">
-            <p *ngIf="!selectedPhoto">Choose a photo you want to upload</p>
-            <img *ngIf="selectedPhoto" [src]="selectedPhoto" alt="Selected Photo" class="photo-preview">
+          <div *ngIf="!selectedPhoto" class="new-photo-placeholder" is="photo-placeholder">
+            <p>Choose a photo you want to upload</p>
           </div>
+          <img *ngIf="selectedPhoto" [src]="selectedPhoto" alt="Selected Photo" class="photo-preview">
           <input type="file" id="upload-photo" (change)="onFileSelected($event)" class="upload-input">
           <button class="upload-button" (click)="triggerFileInput()">UPLOAD PHOTO</button>
           <label class="label-privacy">Do you want everyone to see your photo?</label>
         </header>
       </div>
-
       <form class="add-photo-form" #addPhotoForm="ngForm" (ngSubmit)="onCreatePost(addPhotoForm)">
         <div class="form-group">
           <label for="title" class="label-name">Title</label>

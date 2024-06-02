@@ -1,13 +1,12 @@
 package org.example.photospherebackend.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,10 +18,8 @@ public class Post {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    // TODO PostDTO
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore
     private AppUser user;
 
     @Column(name = "caption", length = Integer.MAX_VALUE)
@@ -34,8 +31,21 @@ public class Post {
     @Column(name = "category", nullable = false)
     private String category;
 
+    @Column(name = "description", nullable = false)
+    private String description;
+
+    @Column(name = "is_private", nullable = false)
+    private boolean isPrivate;
+
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")
     private Instant createdAt;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostReaction> reactions;
+
 
 }

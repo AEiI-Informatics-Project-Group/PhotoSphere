@@ -2,14 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import {NavBarComponent} from "../nav-bar/nav-bar.component";
 import {Router, ActivatedRoute} from "@angular/router";
 import {AuthService} from "../services/auth.service";
-import {NgIf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
+import {UserService} from "../services/user.service";
 
 @Component({
   selector: 'app-zoom-in-photo',
   standalone: true,
   imports: [
     NavBarComponent,
-    NgIf
+    NgIf,
+    NgForOf
   ],
   templateUrl: './zoom-in-photo.component.html',
   styleUrl: './zoom-in-photo.component.css'
@@ -21,10 +23,21 @@ export class ZoomInPhotoComponent {
   funnyIconSrc: string = "assets/icons/funny.png";
   sadIconSrc: string = "assets/icons/sad.png";
   shockedIconSrc: string = "assets/icons/shocked.png";
+  addIconSrc:string = "assets/icons/add_comment.png"
 
   selectedPhoto: string | null = null;
+  comments: { username: string, text: string }[] = [
+    { username: 'Username1', text: 'Comment.' },
+    { username: 'Username2', text: 'Comment.' },
+    { username: 'Username3', text: 'Comment.' },
+    { username: 'Username4', text: 'Comment.' },
+    { username: 'Username1', text: 'Comment.' },
+    { username: 'Username2', text: 'Comment.' },
+    { username: 'Username3', text: 'Comment.' },
+    { username: 'Username4', text: 'Comment.' },
+  ];
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(private router: Router, private route: ActivatedRoute, private userService: UserService, private authService: AuthService) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -51,6 +64,28 @@ export class ZoomInPhotoComponent {
       this.router.navigate(['/EditPhoto'], { queryParams: { photo: this.selectedPhoto}});
     }
     if (item == 'Save') {
+
+      if (this.selectedPhoto) {
+        const link = document.createElement('a');
+        link.href = this.selectedPhoto;
+        link.download = 'photo.jpg';  // You can set the desired filename here
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        console.error('No photo selected to save.');
+      }
+    }
+    }
+
+
+  onDeleteComment(index: number): void {
+    this.comments.splice(index, 1);
+  }
+
+  addComment(commentText: string) {
+    if (commentText) {
+      this.comments.push({ username: 'CurrentUser', text: commentText });
     }
   }
 }
