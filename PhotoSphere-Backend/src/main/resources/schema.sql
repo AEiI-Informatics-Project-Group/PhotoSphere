@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS app_user
     password     VARCHAR(255) NOT NULL,
     gender       VARCHAR(255),
     day_of_birth DATE,
+    description  TEXT,
     image        VARCHAR(255)
 );
 
