@@ -45,7 +45,7 @@ export class UserService {
 
   updateUser(user: User): Observable<User> {
     const url = `${this.apiUrl}/${user.id}`;
-    return this.http.post<User>(this.apiUrl, user);
+    return this.http.put<User>(this.apiUrl, user);
   }
 
   downloadUserImage(userId: number): Observable<Blob> {
