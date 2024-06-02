@@ -85,21 +85,6 @@ public class AppUserController {
         }
     }
 
-    @GetMapping("/{id}/image")
-    public ResponseEntity<String> getUserImage(@PathVariable Long id) {
-        Optional<AppUser> existingUser = appUserService.getUserById(id);
-        if (existingUser.isPresent()) {
-            String imageUrl = existingUser.get().getImage();
-            if (imageUrl != null) {
-                return ResponseEntity.ok(imageUrl);
-            } else {
-                return ResponseEntity.noContent().build(); // No image available
-            }
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
     @PostMapping("/{id}/upload-image")
     public ResponseEntity<String> uploadUserImage(@PathVariable Long id, @RequestParam("image") MultipartFile image) throws IOException {
         Optional<AppUser> existingUser = appUserService.getUserById(id);

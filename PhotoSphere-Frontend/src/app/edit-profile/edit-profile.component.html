@@ -30,7 +30,7 @@
         </div>
         <div class="form-group">
           <label for="description" class="label-name">Profile description</label>
-          <textarea id="description" formControlName="description" placeholder="description" class="description-field"></textarea>
+          <input type="text" id="description" [(ngModel)]="authService.loggedUser.description" name="description" class="description-field" />
         </div>
       </form>
     </section>

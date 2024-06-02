@@ -64,7 +64,9 @@ export class EditProfileComponent {
 
   triggerFileInput(): void {
     const fileInput = document.getElementById('upload-photo') as HTMLInputElement;
-    fileInput.click();
+    if (fileInput) {
+      fileInput.click();
+    }
   }
 
   onSave(profileEditForm: NgForm): void {
@@ -85,9 +87,11 @@ export class EditProfileComponent {
           next: (imageUrl: string) => {
             this.authService.loggedUser.image = imageUrl; // Update the user's image URL
             this.updateUserProfile(profileEditForm);
+            // this.router.navigate(['/ProfilePage']);
           },
           error: err => {
             console.error('Error uploading image', err);
+            this.router.navigate(['/ProfilePage']);
           }
         });
       }
@@ -105,8 +109,9 @@ export class EditProfileComponent {
       },
       error: err => {
         console.error('Error updating user', err);
+        this.router.navigate(['/ProfilePage']);
       }
     });
   }
-  protected readonly update = this.onSave;
 }
+
