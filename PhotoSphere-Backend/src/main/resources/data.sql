@@ -62,12 +62,12 @@ VALUES
     (17, 'Forest trail', null, 'Nature'),
     (18, 'Gourmet dinner', null, 'Food'),
     (19, 'Traveling by train', null, 'Travel'),
-    (20, 'Chilling in the park', null, 'Lifestyle'),
-    (21, 'Tech conference', null, 'Technology'),
-    (22, 'Gym session', null, 'Fitness'),
-    (23, 'Classical concert', null, 'Music'),
-    (24, 'Sculpture exhibit', null, 'Art'),
-    (25, 'Desert adventure', null, 'Nature');
+    (1, 'Chilling in the park', null, 'Lifestyle'),
+    (1, 'Tech conference', null, 'Technology'),
+    (1, 'Gym session', null, 'Fitness'),
+    (1, 'Classical concert', null, 'Music'),
+    (1, 'Sculpture exhibit', null, 'Art'),
+    (1, 'Desert adventure', null, 'Nature');
 
 -- Insert tags for posts
 INSERT INTO post_tag (post_id, tag_id)
