@@ -41,33 +41,33 @@ VALUES
     ('art');
 
 -- Insert sample posts
-INSERT INTO post (user_id, caption, image_url, category)
+INSERT INTO post (user_id, caption, image_url, category, description, is_private)
 VALUES
-    (1, 'A beautiful sunset!', null, 'Nature'),
-    (2, 'Delicious meal!', null, 'Food'),
-    (3, 'Exploring the mountains!', null, 'Travel'),
-    (4, 'A day at the beach', null, 'Lifestyle'),
-    (5, 'New tech gadget', null, 'Technology'),
-    (6, 'Morning workout', null, 'Fitness'),
-    (7, 'Rock concert!', null, 'Music'),
-    (8, 'Art exhibition', null, 'Art'),
-    (9, 'City skyline', null, 'Nature'),
-    (10, 'Healthy breakfast', null, 'Food'),
-    (11, 'Hiking adventure', null, 'Travel'),
-    (12, 'Relaxing at home', null, 'Lifestyle'),
-    (13, 'Latest smartphone', null, 'Technology'),
-    (14, 'Evening yoga', null, 'Fitness'),
-    (15, 'Jazz night', null, 'Music'),
-    (16, 'Painting class', null, 'Art'),
-    (17, 'Forest trail', null, 'Nature'),
-    (18, 'Gourmet dinner', null, 'Food'),
-    (19, 'Traveling by train', null, 'Travel'),
-    (1, 'Chilling in the park', null, 'Lifestyle'),
-    (1, 'Tech conference', null, 'Technology'),
-    (1, 'Gym session', null, 'Fitness'),
-    (1, 'Classical concert', null, 'Music'),
-    (1, 'Sculpture exhibit', null, 'Art'),
-    (1, 'Desert adventure', null, 'Nature');
+    (1, 'A beautiful sunset!', NULL, 'Nature', 'Sunset at the beach', FALSE),
+    (2, 'Delicious meal!', NULL, 'Food', 'Homemade pasta', FALSE),
+    (3, 'Exploring the mountains!', NULL, 'Travel', 'Hiking in the Alps', TRUE),
+    (4, 'A day at the beach', NULL, 'Lifestyle', 'Relaxing on the sand', FALSE),
+    (5, 'New tech gadget', NULL, 'Technology', 'Latest smartphone review', TRUE),
+    (6, 'Morning workout', NULL, 'Fitness', 'Gym session', FALSE),
+    (7, 'Rock concert!', NULL, 'Music', 'Live performance', TRUE),
+    (8, 'Art exhibition', NULL, 'Art', 'Modern art gallery', FALSE),
+    (9, 'City skyline', NULL, 'Nature', 'View from skyscraper', FALSE),
+    (10, 'Healthy breakfast', NULL, 'Food', 'Oatmeal and fruits', FALSE),
+    (11, 'Hiking adventure', NULL, 'Travel', 'Trail in the forest', TRUE),
+    (12, 'Relaxing at home', NULL, 'Lifestyle', 'Reading a book', FALSE),
+    (13, 'Latest smartphone', NULL, 'Technology', 'Unboxing video', TRUE),
+    (14, 'Evening yoga', NULL, 'Fitness', 'Sunset yoga session', FALSE),
+    (15, 'Jazz night', NULL, 'Music', 'Jazz club performance', TRUE),
+    (16, 'Painting class', NULL, 'Art', 'Learning to paint', FALSE),
+    (17, 'Forest trail', NULL, 'Nature', 'Walking in the woods', FALSE),
+    (18, 'Gourmet dinner', NULL, 'Food', 'Five-course meal', TRUE),
+    (19, 'Traveling by train', NULL, 'Travel', 'Cross-country trip', TRUE),
+    (1, 'Chilling in the park', NULL, 'Lifestyle', 'Afternoon at the park', FALSE),
+    (1, 'Tech conference', NULL, 'Technology', 'Attending a tech conference', TRUE),
+    (1, 'Gym session', NULL, 'Fitness', 'Weight training', FALSE),
+    (1, 'Classical concert', NULL, 'Music', 'Symphony orchestra', TRUE),
+    (1, 'Sculpture exhibit', NULL, 'Art', 'Sculpture gallery', FALSE),
+    (1, 'Desert adventure', NULL, 'Nature', 'Exploring the desert', TRUE);
 
 -- Insert tags for posts
 INSERT INTO post_tag (post_id, tag_id)

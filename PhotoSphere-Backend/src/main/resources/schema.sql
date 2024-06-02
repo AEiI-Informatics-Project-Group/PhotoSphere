@@ -20,6 +20,8 @@ CREATE TABLE IF NOT EXISTS post
     caption     TEXT,
     image_url   VARCHAR(255),
     category    VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    is_private  BOOLEAN NOT NULL,
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
