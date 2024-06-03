@@ -37,17 +37,8 @@
     </div>
   </section>
   <main class="content-wrapper">
-    <article (click)="onImageArticleClick(imageSrc)" class="image-article">
-<!--      <div class="article-image placeholder"></div>-->
-      <img src="{{imageSrc}}" alt="Scenic view" class="article-image"/>
-    </article>
-    <article (click)="onImageArticleClick('')" class="image-article">
-      <div class="article-image placeholder"></div>
-<!--      <img src="{{imageSrc}}" alt="Scenic view" class="article-image"/>-->
-    </article>
-    <article (click)="onImageArticleClick('')" class="image-article">
-      <div class="article-image placeholder"></div>
-<!--      <img src="{{imageSrc}}" alt="Scenic view" class="article-image"/>-->
+    <article *ngFor="let src of postImageSrcs" (click)="onImageArticleClick(src)" class="image-article">
+      <img [src]="src" alt="Post image" class="article-image"/>
     </article>
   </main>
 </section>

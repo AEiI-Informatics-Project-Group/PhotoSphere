@@ -31,7 +31,7 @@ export class PostService {
     return this.http.get<Post>(`${this.apiUrl}/${postId}`)
   }
 
-  deletePost(postId: number | undefined): Observable<any> {
+  deletePostById(postId: number | undefined): Observable<any> {
     if (postId === undefined) {
       console.error('Post ID is undefined');
       return throwError(() => new Error('Post ID is undefined, cannot delete post.'));
@@ -40,9 +40,9 @@ export class PostService {
     return this.http.delete(`${this.apiUrl}/${postId}`)
   }
 
-  updatePost(post: Post): Observable<User> {
+  updatePost(post: Post): Observable<Post> {
     const url = `${this.apiUrl}/${post.id}`;
-    return this.http.put<User>(this.apiUrl, post);
+    return this.http.put<Post>(url, post);
   }
 
   downloadPostImage(postId: number): Observable<Blob> {
@@ -60,5 +60,14 @@ export class PostService {
     return this.http.get<number[]>(url);
   }
 
-
+  blankPost: Post ={
+    id: 0,
+    userId: 0,
+    caption: "",
+    imageUrl: "",
+    category: "",
+    description: "",
+    isPrivate: true,
+    createdAt: new Date(),
+  }
 }
