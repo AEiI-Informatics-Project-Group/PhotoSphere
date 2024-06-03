@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavBarComponent } from "../nav-bar/nav-bar.component";
 import { FormsModule, NgForm, ReactiveFormsModule } from "@angular/forms";
 import { PostService } from "../services/post.service";
@@ -6,6 +6,7 @@ import { CommonModule, NgIf } from "@angular/common";
 import { AuthService } from '../services/auth.service';
 import { Post } from "../models/post.model";
 import { Router } from "@angular/router";
+import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 
 @Component({
   selector: 'app-add-new-photo',
@@ -19,8 +20,9 @@ import { Router } from "@angular/router";
   templateUrl: './add-new-photo.component.html',
   styleUrls: ['./add-new-photo.component.css']
 })
-export class AddNewPhotoComponent {
+export class AddNewPhotoComponent implements OnInit {
 
+  postImageSrc: SafeUrl | string = 'assets/icons/placeholder.png';
   selectedPhoto: string | ArrayBuffer | null = null;
   post: Post = {
     id: 0,
@@ -32,12 +34,35 @@ export class AddNewPhotoComponent {
     isPrivate: true,
     createdAt: new Date(),
   };
+  isSubmitting: boolean = false;
 
   constructor(
     private postService: PostService,
     private authService: AuthService,
+    private sanitizer: DomSanitizer,
     private router: Router
   ) { }
+
+  ngOnInit(): void {
+    this.loadPostImage();
+  }
+
+  loadPostImage(): void {
+    const postId = this.post.id;
+    if (postId !== undefined) {
+      this.postService.downloadPostImage(postId).subscribe(
+        (imageBlob: Blob) => {
+          const url = URL.createObjectURL(imageBlob);
+          this.postImageSrc = this.sanitizer.bypassSecurityTrustUrl(url);
+        },
+        (error) => {
+          console.error('Failed to load post image:', error);
+        }
+      );
+    } else {
+      console.error('Post ID is undefined');
+    }
+  }
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -61,6 +86,9 @@ export class AddNewPhotoComponent {
   }
 
   onCreatePost(addPhotoForm: NgForm): void {
+    if (this.isSubmitting) return;  // Prevent multiple submissions
+    this.isSubmitting = true;
+
     const formValues = addPhotoForm.value;
 
     this.post.caption = formValues.Title;
@@ -80,6 +108,7 @@ export class AddNewPhotoComponent {
       },
       error: err => {
         console.error('Error creating post', err);
+        this.isSubmitting = false;
       }
     });
   }
@@ -97,6 +126,8 @@ export class AddNewPhotoComponent {
         },
         error: err => {
           console.error('Error uploading image', err);
+          this.isSubmitting = false;
+          this.router.navigate(['/ProfilePage']);
         }
       });
     }
@@ -110,6 +141,7 @@ export class AddNewPhotoComponent {
       },
       error: err => {
         console.error('Error updating post', err);
+        this.isSubmitting = false;
       }
     });
   }
