@@ -105,6 +105,7 @@ export class EditProfileComponent {
     this.userService.updateUser(this.authService.loggedUser).subscribe({
       next: updatedUser => {
         this.authService.loggedUser = updatedUser;
+
         this.router.navigate(['/ProfilePage']);
       },
       error: err => {

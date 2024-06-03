@@ -66,7 +66,7 @@ export class UserService {
   email: "",
   password: "",
   gender: "",
-  dayOfBirth: [1970, 1, 1],
+  dayOfBirth: [],
   description: "",
   image: ""
 }
