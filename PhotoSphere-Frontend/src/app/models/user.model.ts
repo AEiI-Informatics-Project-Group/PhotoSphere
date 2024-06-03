@@ -6,7 +6,7 @@ export interface User {
   email: string;
   password: string;
   gender: string;
-  dayOfBirth: [];
+  dayOfBirth: [number, number, number];
   description: string;
   image: string;
 }
