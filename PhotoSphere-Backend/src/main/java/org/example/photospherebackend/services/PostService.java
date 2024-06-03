@@ -127,4 +127,12 @@ public class PostService {
     public List<Post> getPostsByUserId(Long userId) {
         return postRepository.findByUserId(userId);
     }
+
+    public List<Post> getPostsByCategory(String category) {
+        return postRepository.findByCategory(category);
+    }
+
+    public List<String> getDistinctCategoriesByUserId(Long userId) {
+        return postRepository.findDistinctCategoriesByUserId(userId);
+    }
 }

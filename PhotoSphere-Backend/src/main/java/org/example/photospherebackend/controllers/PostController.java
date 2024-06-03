@@ -2,7 +2,7 @@ package org.example.photospherebackend.controllers;
 
 import org.example.photospherebackend.models.AppUser;
 import org.example.photospherebackend.models.Post;
-import org.example.photospherebackend.models.PostDTO;
+import org.example.photospherebackend.DTOs.PostDTO;
 import org.example.photospherebackend.services.AppUserService;
 import org.example.photospherebackend.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -138,6 +138,28 @@ public class PostController {
         }
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Long>> getPostIdsByUserId(@PathVariable Long userId) {
+        List<Post> posts = postService.getPostsByUserId(userId);
+        List<Long> postIds = posts.stream()
+                .map(Post::getId)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(postIds);
+    }
+
+    @GetMapping("/category/{category}")
+    public ResponseEntity<List<PostDTO>> getPostsByCategory(@PathVariable String category) {
+        List<Post> posts = postService.getPostsByCategory(category);
+        List<PostDTO> postDTOs = posts.stream().map(this::convertToDTO).collect(Collectors.toList());
+        return ResponseEntity.ok(postDTOs);
+    }
+
+    @GetMapping("/categories/user/{userId}")
+    public ResponseEntity<List<String>> getDistinctCategoriesByUserId(@PathVariable Long userId) {
+        List<String> categories = postService.getDistinctCategoriesByUserId(userId);
+        return ResponseEntity.ok(categories);
+    }
+
     private PostDTO convertToDTO(Post post) {
         PostDTO postDTO = new PostDTO();
         postDTO.setId(post.getId());
@@ -147,6 +169,7 @@ public class PostController {
         postDTO.setCategory(post.getCategory());
         postDTO.setDescription(post.getDescription());
         postDTO.setPrivate(post.isPrivate());
+        postDTO.setCreatedAt(post.getCreatedAt());
         return postDTO;
     }
 
@@ -158,15 +181,7 @@ public class PostController {
         post.setCategory(postDTO.getCategory());
         post.setDescription(postDTO.getDescription());
         post.setPrivate(postDTO.isPrivate());
+        post.setCreatedAt(postDTO.getCreatedAt());
         return post;
-    }
-
-    @GetMapping("/owner/{userId}")
-    public ResponseEntity<List<Long>> getPostIdsByUserId(@PathVariable Long userId) {
-        List<Post> posts = postService.getPostsByUserId(userId);
-        List<Long> postIds = posts.stream()
-                .map(Post::getId)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(postIds);
     }
 }
