@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {User} from "../models/user.model";
+import {AuthService} from "./auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -43,9 +44,9 @@ export class UserService {
     return this.http.delete(`${this.apiUrl}/${userId}`)
   }
 
-  updateUser(user: User): Observable<User> {
+  updateUser(user: Partial<User>): Observable<User> {
     const url = `${this.apiUrl}/${user.id}`;
-    return this.http.put<User>(this.apiUrl, user);
+    return this.http.put<User>(url, user);
   }
 
   downloadUserImage(userId: number): Observable<Blob> {

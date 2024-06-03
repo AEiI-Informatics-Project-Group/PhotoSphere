@@ -71,7 +71,6 @@ export class EditProfileComponent {
 
   onSave(profileEditForm: NgForm): void {
     const userId = this.authService.loggedUser.id;
-
     if (userId === undefined) {
       console.error('User ID is undefined');
       return;
@@ -85,8 +84,9 @@ export class EditProfileComponent {
 
         this.userService.uploadUserImage(userId, formData).subscribe({
           next: (imageUrl: string) => {
-            this.authService.loggedUser.image = imageUrl; // Update the user's image URL
-            this.updateUserProfile(profileEditForm);
+            this.authService.loggedUser.image = imageUrl;
+            console.log('Image uploaded successfully:', imageUrl);// Update the user's image URL
+            this.updateUserProfile();
             // this.router.navigate(['/ProfilePage']);
           },
           error: err => {
@@ -97,14 +97,17 @@ export class EditProfileComponent {
       }
     } else {
       // If no new photo is selected, just update the user profile
-      this.updateUserProfile(profileEditForm);
+      this.updateUserProfile();
     }
   }
 
-  updateUserProfile(profileEditForm: NgForm): void {
+  updateUserProfile(): void {
+    console.log('Updating user profile with data:', this.authService.loggedUser);
+
     this.userService.updateUser(this.authService.loggedUser).subscribe({
       next: updatedUser => {
         this.authService.loggedUser = updatedUser;
+        console.log('User profile updated successfully:', updatedUser);
         this.router.navigate(['/ProfilePage']);
       },
       error: err => {
