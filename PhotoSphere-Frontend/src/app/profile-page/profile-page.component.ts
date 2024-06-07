@@ -26,7 +26,7 @@ export class ProfilePageComponent implements OnInit {
 
   filterName: string = "Lake";
   loggedUserId: number | undefined;
-  postImageSrcs: string[] = []; // Array to hold multiple post images
+  postImages: { postId: number, url: string }[] = []; // Array to hold multiple post images
 
   constructor(private router: Router,
               protected authService: AuthService,
@@ -62,7 +62,7 @@ export class ProfilePageComponent implements OnInit {
       this.postService.downloadPostImage(postId).subscribe(
         (imageBlob: Blob) => {
           const url = URL.createObjectURL(imageBlob);
-          this.postImageSrcs.push(url);
+          this.postImages.push({postId, url});
         },
         (error) => {
           console.error(`Failed to load image for post ID ${postId}:`, error);
@@ -109,9 +109,9 @@ export class ProfilePageComponent implements OnInit {
     console.log('Filter button clicked');
   }
 
-  onImageArticleClick(imageSrc: string): void {
+  onImageArticleClick(postId: number, imageSrc: string): void {
     console.log('Image article clicked');
-    this.router.navigate(['/ZoomInPhoto'], { queryParams: { photo: imageSrc } });
+    this.router.navigate(['/ZoomInPhoto'], { queryParams: { photo: imageSrc, postId } });
   }
 
   onPlaceholderClick(): void {

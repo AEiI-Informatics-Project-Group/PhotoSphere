@@ -89,12 +89,18 @@ export class AddNewPhotoComponent implements OnInit {
     if (this.isSubmitting) return;  // Prevent multiple submissions
     this.isSubmitting = true;
 
+    if (!addPhotoForm.valid || !this.selectedPhoto) {
+      this.isSubmitting = false;
+      return;
+    }
+
     const formValues = addPhotoForm.value;
 
     this.post.caption = formValues.Title;
     this.post.description = formValues.description;
     this.post.category = formValues.category;
-    this.post.isPrivate = formValues.visibility === 'private';
+    this.post.isPrivate = formValues.visibility === 'true';
+    this.post.createdAt = new Date();
 
     this.postService.createPost(this.post).subscribe({
       next: createdPost => {

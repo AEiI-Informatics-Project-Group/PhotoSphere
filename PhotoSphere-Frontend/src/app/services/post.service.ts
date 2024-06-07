@@ -40,9 +40,13 @@ export class PostService {
     return this.http.delete(`${this.apiUrl}/${postId}`)
   }
 
-  updatePost(post: Post): Observable<Post> {
+  updatePost(post: Partial<Post>): Observable<Post> {
     const url = `${this.apiUrl}/${post.id}`;
     return this.http.put<Post>(url, post);
+  }
+
+  updatePostFields(postId: number, fields: Partial<Post>): Observable<Post> {
+    return this.http.put<Post>(`${this.apiUrl}/${postId}`, fields);
   }
 
   downloadPostImage(postId: number): Observable<Blob> {

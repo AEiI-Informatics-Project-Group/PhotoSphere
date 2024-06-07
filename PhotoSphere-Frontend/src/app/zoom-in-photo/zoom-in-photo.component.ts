@@ -4,6 +4,11 @@ import {Router, ActivatedRoute} from "@angular/router";
 import {AuthService} from "../services/auth.service";
 import {NgForOf, NgIf} from "@angular/common";
 import {UserService} from "../services/user.service";
+import {Post} from "../models/post.model";
+import {PostService} from "../services/post.service";
+import {User} from "../models/user.model";
+import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 @Component({
   selector: 'app-zoom-in-photo',
@@ -16,7 +21,7 @@ import {UserService} from "../services/user.service";
   templateUrl: './zoom-in-photo.component.html',
   styleUrl: './zoom-in-photo.component.css'
 })
-export class ZoomInPhotoComponent {
+export class ZoomInPhotoComponent implements OnInit {
   likeIconSrc: string = "assets/icons/like.png";
   dislikeIconSrc: string = "assets/icons/dislike.png";
   binIconSrc: string = "assets/icons/bin.png";
@@ -37,13 +42,58 @@ export class ZoomInPhotoComponent {
     { username: 'Username4', text: 'Comment.' },
   ];
 
-  constructor(private router: Router, private route: ActivatedRoute, private userService: UserService, private authService: AuthService) {}
+  postId: number | null = null;
+  postDetails: Post | null = null;
+  creatorUsername: string | null = null;
+  creatorImageUrl: SafeUrl | string | null = null;
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private userService: UserService,
+    private authService: AuthService,
+    private postService: PostService,
+    private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       this.selectedPhoto = params['photo'] || null;
+      this.postId = params['postId'] ? Number(params['postId']) : null;
+      if (this.postId) {
+        this.fetchPostDetails();
+      }
     });
     this.scrollToTop();
+  }
+
+  fetchPostDetails() {
+    if(this.postId !== null) {
+      this.postService.getPostById(this.postId).subscribe(
+        (post: Post) => {
+          this.postDetails = post;
+          if(post.userId !== undefined) {
+            this.fetchCreatorUsername(post.userId);
+          } else {
+            console.error('User ID is undefined');
+          }
+        },
+        error => {
+          console.error('Failed to fetch post details: ', error);
+        }
+      );
+    }
+  }
+
+  fetchCreatorUsername(userId: number) {
+    this.userService.getUserById(userId).subscribe(
+      (user: User) => {
+        this.creatorUsername = user.username;
+        this.creatorImageUrl = this.sanitizer.bypassSecurityTrustUrl(`http://localhost:8080/api/users/${userId}/download-image`);
+      },
+      error => {
+        console.error('Failed to fetch creator username: ', error);
+      }
+    );
   }
 
   scrollToTop() {
@@ -61,7 +111,7 @@ export class ZoomInPhotoComponent {
   onItemClick(item: string): void {
     console.log(`${item} clicked`);
     if (item == 'Edit') {
-      this.router.navigate(['/EditPhoto'], { queryParams: { photo: this.selectedPhoto}});
+      this.router.navigate(['/EditPhoto'], { queryParams: { photo: this.selectedPhoto, postId: this.postId}});
     }
     if (item == 'Save') {
 
@@ -86,6 +136,14 @@ export class ZoomInPhotoComponent {
   addComment(commentText: string) {
     if (commentText) {
       this.comments.push({ username: 'CurrentUser', text: commentText });
+    }
+  }
+
+  navigateToUserProfile(userId: number | undefined) {
+    if (userId) {
+      this.router.navigate(['/ProfilePage'], {queryParams: { userId } });
+    } else {
+      console.error('User ID is undefined, cannot navigate to profile page.');
     }
   }
 }

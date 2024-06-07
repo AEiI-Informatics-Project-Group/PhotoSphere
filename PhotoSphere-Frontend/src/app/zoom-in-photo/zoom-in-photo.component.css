@@ -101,6 +101,7 @@
   border-radius: 20px;
   width: 60%;
   justify-content: flex-end;
+  cursor: pointer;
 }
 
 .creator-photo {
@@ -138,24 +139,6 @@
   font-size: 18px;
   margin-bottom: 20px;
   color: #000000;
-}
-
-.visibility-options {
-  display: flex;
-  gap: 50px;
-  margin: 20px auto;
-  color: #000000;
-}
-
-.visibility-label {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
 }
 
 .button-container {

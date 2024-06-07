@@ -86,7 +86,7 @@ export class EditProfileComponent {
           next: (imageUrl: string) => {
             this.authService.loggedUser.image = imageUrl;
             console.log('Image uploaded successfully:', imageUrl);// Update the user's image URL
-            this.updateUserProfile();
+            this.updateUserProfile(userId);
             // this.router.navigate(['/ProfilePage']);
           },
           error: err => {
@@ -97,14 +97,21 @@ export class EditProfileComponent {
       }
     } else {
       // If no new photo is selected, just update the user profile
-      this.updateUserProfile();
+      this.updateUserProfile(userId);
     }
   }
 
-  updateUserProfile(): void {
-    console.log('Updating user profile with data:', this.authService.loggedUser);
+  updateUserProfile(userId: number): void {
+    const updateUserData: Partial<User> = {
+      firstName: this.authService.loggedUser.firstName,
+      lastName: this.authService.loggedUser.firstName,
+      username: this.authService.loggedUser.username,
+      description: this.authService.loggedUser.description
+    };
 
-    this.userService.updateUser(this.authService.loggedUser).subscribe({
+    console.log('Updating user profile with data:', updateUserData);
+
+    this.userService.updateUser(userId, updateUserData).subscribe({
       next: updatedUser => {
         this.authService.loggedUser = updatedUser;
         console.log('User profile updated successfully:', updatedUser);

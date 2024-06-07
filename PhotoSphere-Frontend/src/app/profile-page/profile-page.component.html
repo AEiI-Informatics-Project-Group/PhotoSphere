@@ -37,8 +37,8 @@
     </div>
   </section>
   <main class="content-wrapper">
-    <article *ngFor="let src of postImageSrcs" (click)="onImageArticleClick(src)" class="image-article">
-      <img [src]="src" alt="Post image" class="article-image"/>
+    <article *ngFor="let postImage  of postImages" (click)="onImageArticleClick(postImage.postId, postImage.url)" class="image-article">
+      <img [src]="postImage.url" alt="Post image" class="article-image"/>
     </article>
   </main>
 </section>

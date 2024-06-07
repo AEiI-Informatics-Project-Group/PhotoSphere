@@ -44,8 +44,8 @@ export class UserService {
     return this.http.delete(`${this.apiUrl}/${userId}`)
   }
 
-  updateUser(user: Partial<User>): Observable<User> {
-    const url = `${this.apiUrl}/${user.id}`;
+  updateUser(userId: number, user: Partial<User>): Observable<User> {
+    const url = `${this.apiUrl}/${userId}`;
     return this.http.put<User>(url, user);
   }
 

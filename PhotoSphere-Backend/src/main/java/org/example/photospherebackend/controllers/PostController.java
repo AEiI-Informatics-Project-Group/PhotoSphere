@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.util.ReflectionUtils;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -147,6 +148,7 @@ public class PostController {
         postDTO.setCategory(post.getCategory());
         postDTO.setDescription(post.getDescription());
         postDTO.setPrivate(post.isPrivate());
+        postDTO.setCreatedAt(Date.from(post.getCreatedAt()));
         return postDTO;
     }
 
@@ -158,6 +160,7 @@ public class PostController {
         post.setCategory(postDTO.getCategory());
         post.setDescription(postDTO.getDescription());
         post.setPrivate(postDTO.isPrivate());
+        post.setCreatedAt(postDTO.getCreatedAt().toInstant());
         return post;
     }
 
