@@ -126,8 +126,8 @@ export class AddNewPhotoComponent implements OnInit {
       formData.append('image', fileInput.files[0]);
 
       this.postService.uploadPostImage(this.post.id, formData).subscribe({
-        next: (imageUrl: string) => {
-          this.post.imageUrl = imageUrl;
+        next: (response) => {
+          this.post.imageUrl = response.imageUrl;
           this.savePost(this.post);
         },
         error: err => {

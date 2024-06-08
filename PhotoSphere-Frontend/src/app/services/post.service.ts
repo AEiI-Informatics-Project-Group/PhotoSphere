@@ -54,13 +54,13 @@ export class PostService {
     return this.http.get(url, { responseType: 'blob' });
   }
 
-  uploadPostImage(postId: number, formData: FormData): Observable<string> {
+  uploadPostImage(postId: number, formData: FormData): Observable<{ imageUrl: string }> {
     const url = `${this.apiUrl}/${postId}/upload-image`;
-    return this.http.post<string>(url, formData);
+    return this.http.post<{ imageUrl: string }>(url, formData);
   }
 
   getPostIdsByUserId(userId: number): Observable<number[]> {
-    const url = `${this.apiUrl}/owner/${userId}`;
+    const url = `${this.apiUrl}/user/${userId}`;
     return this.http.get<number[]>(url);
   }
 

@@ -46,6 +46,7 @@ export class ProfilePageComponent implements OnInit {
     if (this.loggedUserId !== undefined) {
       this.postService.getPostIdsByUserId(this.loggedUserId).subscribe(
         (postIds: number[]) => {
+          postIds.reverse();
           postIds.forEach(postId => this.loadPostImage(postId));
         },
         (error) => {
