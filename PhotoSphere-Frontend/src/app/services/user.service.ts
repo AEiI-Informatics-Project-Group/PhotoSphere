@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {User} from "../models/user.model";
+import {AuthService} from "./auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -43,9 +44,19 @@ export class UserService {
     return this.http.delete(`${this.apiUrl}/${userId}`)
   }
 
+  updateUser(userId: number, user: Partial<User>): Observable<User> {
+    const url = `${this.apiUrl}/${userId}`;
+    return this.http.put<User>(url, user);
+  }
+
   downloadUserImage(userId: number): Observable<Blob> {
     const url = `${this.apiUrl}/${userId}/download-image`;
     return this.http.get(url, { responseType: 'blob' });
+  }
+
+  uploadUserImage(userId: number, formData: FormData): Observable<string> {
+    const url = `${this.apiUrl}/${userId}/upload-image`;
+    return this.http.post<string>(url, formData);
   }
 
   blankUser : User = {
@@ -56,7 +67,9 @@ export class UserService {
   email: "",
   password: "",
   gender: "",
-  dayOfBirth: []
+  dayOfBirth: [],
+  description: "",
+  image: ""
 }
 
 }

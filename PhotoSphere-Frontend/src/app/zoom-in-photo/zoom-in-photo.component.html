@@ -36,24 +36,14 @@
             </div>
           </div>
         </div>
-        <main class="photo-info">
-          <div class="creator-info">
-            <span class="creator-username">Creator username</span>
-            <img src="assets/icons/profile_image_test.jpg" alt="Creator" class="creator-photo">
+        <main class="photo-info" >
+          <div class="creator-info" (click)="navigateToUserProfile(postDetails?.userId)">
+            <span class="creator-username">{{ creatorUsername }}</span>
+            <img [src]="creatorImageUrl" alt="Creator" class="creator-photo">
           </div>
           <div class="photo-details">
-            <h2 class="photo-title">Title</h2>
-            <p class="photo-description">Description</p>
-          </div>
-          <div class="visibility-options">
-            <label for="private" class="visibility-label">
-              <input type="checkbox" id="private" name="visibility" value="private" (change)="checkOnly($event)"/>
-              Private
-            </label>
-            <label for="public" class="visibility-label">
-              <input type="checkbox" id="public" name="visibility" value="public" (change)="checkOnly($event)"/>
-              Public
-            </label>
+            <h2 class="photo-title">{{ postDetails?.caption }}</h2>
+            <p class="photo-description">{{ postDetails?.description }}</p>
           </div>
         </main>
       </div>
@@ -62,5 +52,35 @@
       <button type="submit" class="save-button" (click)="onItemClick('Edit')">EDIT PHOTO</button>
       <button class="save-button delete" tabindex="0" (click)="onItemClick('Save')">SAVE ON DEVICE</button>
     </div>
+  </main>
+  <main class="comments-container">
+    <div class="comment-label">
+      <label class="label-comments">Comments</label>
+    </div>
+    <section class="comment-section">
+      <div class="comment" *ngFor="let comment of comments">
+        <div class="comment-content">
+          <span class="username">{{comment.username}}:</span>:
+          <span class="comment-text">{{comment.text}}</span>
+          <img src="assets/icons/bin.png" alt="Delete" class="bin-icon"> <!--(click)="onDeleteComment(i)"-->
+        </div>
+        <div class="comment-actions">
+          <a href="#" class="reply">Reply</a>
+          <span class="action-icons">
+            <span class="like">4 <img src="assets/icons/like.png" alt="Like" class="interaction-icon"></span>
+            <span class="dislike">1 <img src="assets/icons/dislike.png" alt="Dislike" class="interaction-icon"></span>
+            <span class="sad">2 <img src="assets/icons/sad.png" alt="Sad" class="interaction-icon"></span>
+            <span class="funny">3 <img src="assets/icons/funny.png" alt="Funny" class="interaction-icon"></span>
+            <span class="shocked">0 <img src="assets/icons/shocked.png" alt="Shocked" class="interaction-icon"></span>
+          </span>
+        </div>
+      </div>
+    </section>
+    <section class="add-comment-section">
+      <input type="text" class="comment-input" placeholder="Write your comment here"/>
+      <button class="add-comment-button">
+        <img [src]="addIconSrc" alt="Add Icon" class="add-icon">
+      </button>
+    </section>
   </main>
 </div>

@@ -11,7 +11,7 @@
     </section>
     <div class = "profile-center">
       <div class="profile-image">
-        <img src="assets/icons/profile_image_test.jpg" alt="Profile image" class="profile-image-element" />
+        <img [src]="profileImageSrc" alt="Profile image" class="profile-image-element" />
       </div>
     </div>
     <section class="profile-navigation">
@@ -22,8 +22,8 @@
     </section>
   </main>
   <header class="profile-info">
-    <h2 class="username">Username</h2>
-    <p class="profile-description">Profile description</p>
+    <h2 class="username"> {{ authService.loggedUser.username }} </h2>
+    <p class="profile-description">{{ authService.loggedUser.description }}</p>
   </header>
   <section class="filter-section">
     <div class="filter-nav">
@@ -37,17 +37,8 @@
     </div>
   </section>
   <main class="content-wrapper">
-    <article (click)="onImageArticleClick(imageSrc)" class="image-article">
-<!--      <div class="article-image placeholder"></div>-->
-      <img src="{{imageSrc}}" alt="Scenic view" class="article-image"/>
-    </article>
-    <article (click)="onImageArticleClick('')" class="image-article">
-      <div class="article-image placeholder"></div>
-<!--      <img src="{{imageSrc}}" alt="Scenic view" class="article-image"/>-->
-    </article>
-    <article (click)="onImageArticleClick('')" class="image-article">
-      <div class="article-image placeholder"></div>
-<!--      <img src="{{imageSrc}}" alt="Scenic view" class="article-image"/>-->
+    <article *ngFor="let postImage  of postImages" (click)="onImageArticleClick(postImage.postId, postImage.url)" class="image-article">
+      <img [src]="postImage.url" alt="Post image" class="article-image"/>
     </article>
   </main>
 </section>
