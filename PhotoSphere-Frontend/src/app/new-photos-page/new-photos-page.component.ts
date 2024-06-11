@@ -31,7 +31,7 @@ export class NewPhotosPageComponent implements OnInit{
 
   loadRecentPosts(): void {
     const now = new Date();
-    const last24Hours = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+    const last24Hours = new Date(now.getTime() - 48 * 60 * 60 * 1000);
 
     this.postService.getAllPosts().subscribe(
       (posts: Post[]) => {
@@ -45,6 +45,11 @@ export class NewPhotosPageComponent implements OnInit{
           return postDate >= last24Hours;
         });
 
+        this.posts.sort((a, b) => {
+          const dateA = new Date(Number(a.createdAt) * 1000);
+          const dateB = new Date(Number(b.createdAt) * 1000);
+          return dateB.getTime() - dateA.getTime();
+        });
         this.loadPostImages();
       },
       (error) => {
@@ -59,7 +64,8 @@ export class NewPhotosPageComponent implements OnInit{
       this.postService.downloadPostImage(post.id).subscribe(
         (imageBlob: Blob) => {
           const url = URL.createObjectURL(imageBlob);
-          this.postImages.push({ postId: post.id, imageUrl: url });
+          const imageIndex = this.posts.findIndex(p => p.id === post.id);
+          this.postImages[imageIndex] = { postId: post.id, imageUrl: url };
         },
         (error) => {
           console.error(`Failed to load image for post ID ${post.id}:`, error);

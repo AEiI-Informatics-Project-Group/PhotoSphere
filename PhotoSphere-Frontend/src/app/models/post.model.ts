@@ -6,6 +6,6 @@ export interface Post {
   imageUrl: string;
   category: string;
   description: string;
-  isPrivate: boolean;
+  private: boolean;
   createdAt: Date;
 }

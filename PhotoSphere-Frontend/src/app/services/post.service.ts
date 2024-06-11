@@ -80,7 +80,7 @@ export class PostService {
     imageUrl: "",
     category: "",
     description: "",
-    isPrivate: true,
+    private: true,
     createdAt: new Date(),
   }
 }

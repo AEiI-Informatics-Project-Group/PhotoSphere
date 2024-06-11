@@ -25,7 +25,7 @@ export class EditPhotoComponent implements OnInit {
     caption: '',
     description: '',
     category: '',
-    isPrivate: true,
+    private: true,
   };
 
   constructor(
@@ -52,7 +52,7 @@ export class EditPhotoComponent implements OnInit {
           caption: post.caption,
           description: post.description,
           category: post.category,
-          isPrivate: post.isPrivate
+          private: post.private
         };
       },
       error => {
@@ -66,7 +66,7 @@ export class EditPhotoComponent implements OnInit {
         caption: this.post.caption,
         description: this.post.description,
         category: this.post.category,
-        isPrivate: this.post.isPrivate
+        isPrivate: this.post.private
       };
 
       this.postService.updatePostFields(this.post.id, updatedFields).subscribe(

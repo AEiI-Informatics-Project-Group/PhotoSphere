@@ -31,7 +31,7 @@ export class AddNewPhotoComponent implements OnInit {
     imageUrl: '',
     category: '',
     description: '',
-    isPrivate: true,
+    private: true,
     createdAt: new Date(),
   };
   isSubmitting: boolean = false;
@@ -99,7 +99,7 @@ export class AddNewPhotoComponent implements OnInit {
     this.post.caption = formValues.Title;
     this.post.description = formValues.description;
     this.post.category = formValues.category;
-    this.post.isPrivate = formValues.visibility === 'true';
+    this.post.private = formValues.visibility === 'true';
     this.post.createdAt = new Date();
 
     this.postService.createPost(this.post).subscribe({

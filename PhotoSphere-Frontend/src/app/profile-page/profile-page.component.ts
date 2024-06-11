@@ -7,6 +7,7 @@ import {UserService} from "../services/user.service";
 import {PostService} from "../services/post.service";
 import {NgForOf, NgIf} from "@angular/common";
 import {User} from "../models/user.model";
+import {Post} from "../models/post.model";
 
 @Component({
   selector: 'app-profile-page',
@@ -52,12 +53,12 @@ export class ProfilePageComponent implements OnInit {
     });
   }
 
-  loadUserPostImages(): void {
+  loadUserPostImages(isPrivate: boolean | null = null): void {
     if (this.currentUserId !== undefined) {
       this.postService.getPostIdsByUserId(this.currentUserId).subscribe(
         (postIds: number[]) => {
-          postIds.reverse();
-          postIds.forEach(postId => this.loadPostImage(postId));
+          this.postImages = [];
+          postIds.forEach(postId => this.loadPostImage(postId, isPrivate));
         },
         (error) => {
           console.error('Failed to load post IDs:', error);
@@ -68,15 +69,30 @@ export class ProfilePageComponent implements OnInit {
     }
   }
 
-  loadPostImage(postId: number): void {
+  loadPostImage(postId: number, isPrivate: boolean | null): void {
     if (postId !== undefined) {
-      this.postService.downloadPostImage(postId).subscribe(
-        (imageBlob: Blob) => {
-          const url = URL.createObjectURL(imageBlob);
-          this.postImages.push({postId, url});
+      this.postService.getPostById(postId).subscribe(
+        (post: Post) => {
+          console.log(`Loaded post:`, post); // Log the entire post object
+          console.log(`post id ${post.id} post is_private ${post.private}`); // Use post.private
+          // Use explicit type assertion to ensure TypeScript understands the type
+          const postIsPrivate = (post as Post).private;
+          console.log(`Type asserted is_private: ${postIsPrivate}`);
+          if (isPrivate === null || postIsPrivate === isPrivate) {
+            this.postService.downloadPostImage(postId).subscribe(
+              (imageBlob: Blob) => {
+                const url = URL.createObjectURL(imageBlob);
+                this.postImages.push({ postId, url });
+                this.postImages.sort((a, b) => b.postId - a.postId);
+              },
+              (error) => {
+                console.error(`Failed to load image for post ID ${postId}:`, error);
+              }
+            );
+          }
         },
         (error) => {
-          console.error(`Failed to load image for post ID ${postId}:`, error);
+          console.error(`Failed to load post for post ID ${postId}:`, error);
         }
       );
     } else {
@@ -130,10 +146,10 @@ export class ProfilePageComponent implements OnInit {
   onNavButtonClick(item: string): void {
     console.log(`${item} clicked`);
     if(item == 'Public') {
-      this.router.navigate(['/PublicPhotos']);
+      this.loadUserPostImages(false); // Load only public posts
     }
     if(item == 'Private') {
-      this.router.navigate(['/PrivatePhotos']);
+      this.loadUserPostImages(true); // Load only private posts
     }
     if(item == 'Saved') {
       this.router.navigate(['/SavedPhotos']);
@@ -166,7 +182,7 @@ export class ProfilePageComponent implements OnInit {
             url: post.imageUrl
           }));
           this.postImages.forEach(postImage => {
-            this.loadPostImage(postImage.postId);
+            this.loadPostImage(postImage.postId, null);
           });
         },
         (error) => {
