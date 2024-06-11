@@ -49,7 +49,7 @@
       </div>
     </section>
     <div class="button-container">
-      <button type="submit" class="save-button" (click)="onItemClick('Edit')">EDIT PHOTO</button>
+      <button *ngIf="isCurrentUserOwner" type="submit" class="save-button" (click)="onItemClick('Edit')">EDIT PHOTO</button>
       <button class="save-button delete" tabindex="0" (click)="onItemClick('Save')">SAVE ON DEVICE</button>
     </div>
   </main>

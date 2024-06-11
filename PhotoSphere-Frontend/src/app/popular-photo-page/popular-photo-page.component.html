@@ -1,8 +1,8 @@
 <header class="menu-bar">
-<app-nav-bar></app-nav-bar>
+  <app-nav-bar></app-nav-bar>
 </header>
 <section class="photo-grid">
-  <div class="photo-item" *ngFor="let placeholder of placeholders">
-    <div class="photo-placeholder"></div>
+  <div class="photo-item" *ngFor="let postImage of postImages" (click)="onPhotoClicked(postImage.postId, postImage.imageUrl)">
+    <img [src]="postImage.imageUrl" alt="Post image" class="photo-image" />
   </div>
 </section>

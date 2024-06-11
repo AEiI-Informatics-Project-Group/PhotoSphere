@@ -20,7 +20,7 @@ export const routes: Routes = [
   {path: 'PopularPhotoPage', component: PopularPhotoPageComponent},
   {path: 'NewPhotosPage', component: NewPhotosPageComponent},
   {path: 'AddNewPhoto', component: AddNewPhotoComponent},
-  {path: 'ProfilePage', component: ProfilePageComponent},
+  {path: 'ProfilePage/:id', component: ProfilePageComponent},
   {path: 'EditPhoto', component: EditPhotoComponent},
   {path: 'ZoomInPhoto', component: ZoomInPhotoComponent},
   {path: 'EditProfile', component: EditProfileComponent},

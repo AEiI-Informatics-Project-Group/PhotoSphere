@@ -5,6 +5,7 @@ import {NgIf} from "@angular/common";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Post} from "../models/post.model";
 import {PostService} from "../services/post.service";
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'app-edit-photo',
@@ -30,7 +31,8 @@ export class EditPhotoComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private postService: PostService,
-    private router: Router) {}
+    private router: Router,
+    private authService: AuthService) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -70,7 +72,7 @@ export class EditPhotoComponent implements OnInit {
       this.postService.updatePostFields(this.post.id, updatedFields).subscribe(
         () => {
           console.log('Post updated successfully');
-          this.router.navigate(['/ProfilePage']);
+          this.router.navigate(['/ZoomInPhoto'], { queryParams: { photo: this.editedPhoto, postId: this.post.id } });
         },
         error => {
           console.error('Failed to update post:', error);
@@ -92,7 +94,8 @@ export class EditPhotoComponent implements OnInit {
       this.postService.deletePostById(this.post.id).subscribe(
         () => {
           console.log('Post deleted successfully');
-          this.router.navigate(['/ProfilePage']);
+          const userId = this.authService.loggedUser.id;
+          this.router.navigate(['/ProfilePage', userId]);
         },
         error => {
           console.error('Failed to delete post:', error);

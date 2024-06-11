@@ -19,16 +19,17 @@ export class NavBarComponent {
   onNavItemClick(item: string): void {
     console.log(`${item} clicked`);
     if(item == 'Popular') {
-      this.router.navigate(['/PopularPhotoPage'])
+      this.router.navigate(['/PopularPhotoPage']);
     }
     if(item == 'New'){
-      this.router.navigate(['/NewPhotosPage'])
+      this.router.navigate(['/NewPhotosPage']);
     }
     if(item == 'Create'){
-      this.router.navigate(['/AddNewPhoto'])
+      this.router.navigate(['/AddNewPhoto']);
     }
     if(item == 'Account'){
-      this.router.navigate(['/ProfilePage'])
+      const userId = this.authService.loggedUser.id;
+      this.router.navigate(['/ProfilePage', userId]);
     }
   }
   logOut(): void {

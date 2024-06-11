@@ -1,28 +1,21 @@
 .photo-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 40px;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
   padding: 20px;
   margin-top: 20px;
 }
 
 .photo-item {
-  flex: 1 1 calc(33.333% - 40px);
-  max-width: calc(33.333% - 40px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  border-radius: 20px;
   overflow: hidden;
+  border-radius: 20px;
   cursor: pointer;
+  display: flex;
 }
 
-.photo-placeholder {
+.photo-image {
   width: 100%;
-  padding-top: 75%;
-  background-color: #cccccc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #666;
-  font-size: 20px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 20px;
 }

@@ -109,7 +109,8 @@ export class AddNewPhotoComponent implements OnInit {
         if (this.selectedPhoto) {
           this.uploadImageAndSavePost();
         } else {
-          this.router.navigate(['/ProfilePage']);
+          const userId = this.authService.loggedUser.id;
+          this.router.navigate(['/ProfilePage', userId]);
         }
       },
       error: err => {
@@ -133,7 +134,8 @@ export class AddNewPhotoComponent implements OnInit {
         error: err => {
           console.error('Error uploading image', err);
           this.isSubmitting = false;
-          this.router.navigate(['/ProfilePage']);
+          const userId = this.authService.loggedUser.id;
+          this.router.navigate(['/ProfilePage', userId]);
         }
       });
     }
@@ -143,21 +145,13 @@ export class AddNewPhotoComponent implements OnInit {
     this.postService.updatePost(newPost).subscribe({
       next: updatedPost => {
         console.log('Post updated successfully:', updatedPost);
-        this.router.navigate(['/ProfilePage']);
+        const userId = this.authService.loggedUser.id;
+        this.router.navigate(['/ProfilePage', userId]);
       },
       error: err => {
         console.error('Error updating post', err);
         this.isSubmitting = false;
       }
     });
-  }
-
-  checkOnly(event: Event): void {
-    const checkbox = event.target as HTMLInputElement;
-    const checkboxes = document.getElementsByName('visibility') as NodeListOf<HTMLInputElement>;
-    checkboxes.forEach((item) => {
-      if (item !== checkbox) item.checked = false;
-    });
-    this.post.isPrivate = checkbox.value === 'private';
   }
 }

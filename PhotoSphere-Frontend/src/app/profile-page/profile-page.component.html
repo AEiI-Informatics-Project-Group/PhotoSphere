@@ -5,8 +5,8 @@
   <main class = "content">
     <section class="profile-navigation">
       <div class="profile-nav-bar-item">
-        <button class="navigation-button public-posts"  (click)="onNavButtonClick('Public')">Public posts</button>
-        <button class="navigation-button private-posts" (click)="onNavButtonClick('Private')">Private posts</button>
+        <button *ngIf="isCurrentUserProfile" class="navigation-button public-posts"  (click)="onNavButtonClick('Public')">Public posts</button>
+        <button *ngIf="isCurrentUserProfile" class="navigation-button private-posts" (click)="onNavButtonClick('Private')">Private posts</button>
       </div>
     </section>
     <div class = "profile-center">
@@ -16,14 +16,14 @@
     </div>
     <section class="profile-navigation">
       <div class = "profile-nav-bar-item">
-        <button class="navigation-button saved" (click)="onNavButtonClick('Saved')">Saved</button>
-        <button class="navigation-button edit-profile" (click)="onNavButtonClick('Edit')">Edit profile</button>
+        <button *ngIf="isCurrentUserProfile" class="navigation-button saved" (click)="onNavButtonClick('Saved')">Saved</button>
+        <button *ngIf="isCurrentUserProfile" class="navigation-button edit-profile" (click)="onNavButtonClick('Edit')">Edit profile</button>
       </div>
     </section>
   </main>
   <header class="profile-info">
-    <h2 class="username"> {{ authService.loggedUser.username }} </h2>
-    <p class="profile-description">{{ authService.loggedUser.description }}</p>
+    <h2 class="username"> {{ profileUsername }} </h2>
+    <p class="profile-description">{{ profileDescription }}</p>
   </header>
   <section class="filter-section">
     <div class="filter-nav">
@@ -34,6 +34,11 @@
         </button>
       </div>
       <h2 class="filter-name">{{ filterName }}</h2>
+    </div>
+    <div *ngIf="showCategoryList" class="category-list">
+      <ul>
+        <li *ngFor="let category of categories" (click)="onCategorySelected(category)">{{ category }}</li>
+      </ul>
     </div>
   </section>
   <main class="content-wrapper">

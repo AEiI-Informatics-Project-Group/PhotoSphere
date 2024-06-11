@@ -64,6 +64,15 @@ export class PostService {
     return this.http.get<number[]>(url);
   }
 
+  getPostsByCategory(category: string): Observable<Post[]> {
+    const url = `${this.apiUrl}/category/${category}`;
+    return this.http.get<Post[]>(url);
+  }
+
+  getCategoriesByUserId(userId: number): Observable<string[]> {
+    const url = `${this.apiUrl}/categories/user/${userId}`;
+    return this.http.get<string[]>(url);
+  }
   blankPost: Post ={
     id: 0,
     userId: 0,

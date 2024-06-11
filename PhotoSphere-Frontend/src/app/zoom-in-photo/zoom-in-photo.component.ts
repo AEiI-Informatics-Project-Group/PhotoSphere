@@ -46,6 +46,7 @@ export class ZoomInPhotoComponent implements OnInit {
   postDetails: Post | null = null;
   creatorUsername: string | null = null;
   creatorImageUrl: SafeUrl | string | null = null;
+  isCurrentUserOwner: boolean = false;
 
   constructor(
     private router: Router,
@@ -73,6 +74,7 @@ export class ZoomInPhotoComponent implements OnInit {
           this.postDetails = post;
           if(post.userId !== undefined) {
             this.fetchCreatorUsername(post.userId);
+            this.isCurrentUserOwner = post.userId === this.authService.loggedUser.id;
           } else {
             console.error('User ID is undefined');
           }
@@ -141,7 +143,7 @@ export class ZoomInPhotoComponent implements OnInit {
 
   navigateToUserProfile(userId: number | undefined) {
     if (userId) {
-      this.router.navigate(['/ProfilePage'], {queryParams: { userId } });
+      this.router.navigate(['/ProfilePage', userId]);
     } else {
       console.error('User ID is undefined, cannot navigate to profile page.');
     }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule, NgIf} from "@angular/common";
 import {NavBarComponent} from "../nav-bar/nav-bar.component";
@@ -20,12 +20,15 @@ import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
   templateUrl: './edit-profile.component.html',
   styleUrl: './edit-profile.component.css'
 })
-export class EditProfileComponent {
+export class EditProfileComponent implements OnInit {
   selectedPhoto: string | ArrayBuffer | null = null;
   profileImageSrc: SafeUrl | string = 'assets/icons/placeholder.png';
 
-  constructor(protected authService: AuthService, private userService: UserService, private router: Router, private sanitizer: DomSanitizer) {
-  }
+  constructor(
+    protected authService: AuthService,
+    private userService: UserService,
+    private router: Router,
+    private sanitizer: DomSanitizer) {}
 
   ngOnInit(): void {
     this.loadUserProfileImage();
@@ -85,18 +88,18 @@ export class EditProfileComponent {
         this.userService.uploadUserImage(userId, formData).subscribe({
           next: (imageUrl: string) => {
             this.authService.loggedUser.image = imageUrl;
-            console.log('Image uploaded successfully:', imageUrl);// Update the user's image URL
+            console.log('Image uploaded successfully:', imageUrl);
             this.updateUserProfile(userId);
             // this.router.navigate(['/ProfilePage']);
           },
           error: err => {
             console.error('Error uploading image', err);
-            this.router.navigate(['/ProfilePage']);
+            const userId = this.authService.loggedUser.id;
+            this.router.navigate(['/ProfilePage', userId]);
           }
         });
       }
     } else {
-      // If no new photo is selected, just update the user profile
       this.updateUserProfile(userId);
     }
   }
@@ -115,11 +118,13 @@ export class EditProfileComponent {
       next: updatedUser => {
         this.authService.loggedUser = updatedUser;
         console.log('User profile updated successfully:', updatedUser);
-        this.router.navigate(['/ProfilePage']);
+        const userId = this.authService.loggedUser.id;
+        this.router.navigate(['/ProfilePage', userId]);
       },
       error: err => {
         console.error('Error updating user', err);
-        this.router.navigate(['/ProfilePage']);
+        const userId = this.authService.loggedUser.id;
+        this.router.navigate(['/ProfilePage', userId]);
       }
     });
   }
