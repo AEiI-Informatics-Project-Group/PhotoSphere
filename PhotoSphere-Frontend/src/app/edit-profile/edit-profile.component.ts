@@ -78,8 +78,29 @@ export class EditProfileComponent implements OnInit {
       console.error('User ID is undefined');
       return;
     }
+
+    const updateUserData: Partial<User> = {
+      firstName: this.authService.loggedUser.firstName,
+      lastName: this.authService.loggedUser.lastName,
+      username: this.authService.loggedUser.username,
+      description: this.authService.loggedUser.description
+    };
+
+    const saveUpdates = () => {
+      this.userService.updateUser(userId, updateUserData).subscribe({
+        next: updatedUser => {
+          this.authService.loggedUser = updatedUser;
+          console.log('User profile updated successfully:', updatedUser);
+          this.router.navigate(['/ProfilePage', userId]);
+        },
+        error: err => {
+          console.error('Error updating user', err);
+          this.router.navigate(['/ProfilePage', userId]);
+        }
+      });
+    };
+
     if (this.selectedPhoto) {
-      // If a new photo is selected, upload it
       const fileInput = document.getElementById('upload-photo') as HTMLInputElement;
       if (fileInput.files && fileInput.files[0]) {
         const formData = new FormData();
@@ -89,44 +110,17 @@ export class EditProfileComponent implements OnInit {
           next: (imageUrl: string) => {
             this.authService.loggedUser.image = imageUrl;
             console.log('Image uploaded successfully:', imageUrl);
-            this.updateUserProfile(userId);
-            // this.router.navigate(['/ProfilePage']);
+            saveUpdates();
           },
           error: err => {
             console.error('Error uploading image', err);
-            const userId = this.authService.loggedUser.id;
-            this.router.navigate(['/ProfilePage', userId]);
+            saveUpdates();
           }
         });
       }
     } else {
-      this.updateUserProfile(userId);
+      saveUpdates();
     }
-  }
-
-  updateUserProfile(userId: number): void {
-    const updateUserData: Partial<User> = {
-      firstName: this.authService.loggedUser.firstName,
-      lastName: this.authService.loggedUser.firstName,
-      username: this.authService.loggedUser.username,
-      description: this.authService.loggedUser.description
-    };
-
-    console.log('Updating user profile with data:', updateUserData);
-
-    this.userService.updateUser(userId, updateUserData).subscribe({
-      next: updatedUser => {
-        this.authService.loggedUser = updatedUser;
-        console.log('User profile updated successfully:', updatedUser);
-        const userId = this.authService.loggedUser.id;
-        this.router.navigate(['/ProfilePage', userId]);
-      },
-      error: err => {
-        console.error('Error updating user', err);
-        const userId = this.authService.loggedUser.id;
-        this.router.navigate(['/ProfilePage', userId]);
-      }
-    });
   }
 }
 
