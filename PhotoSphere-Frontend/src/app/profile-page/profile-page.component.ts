@@ -73,15 +73,12 @@ export class ProfilePageComponent implements OnInit {
     if (postId !== undefined) {
       this.postService.getPostById(postId).subscribe(
         (post: Post) => {
-          console.log(`Loaded post:`, post); // Log the entire post object
-          console.log(`post id ${post.id} post is_private ${post.private}`); // Use post.private
-          // Use explicit type assertion to ensure TypeScript understands the type
           const postIsPrivate = (post as Post).private;
-          console.log(`Type asserted is_private: ${postIsPrivate}`);
           if (isPrivate === null || postIsPrivate === isPrivate) {
             this.postService.downloadPostImage(postId).subscribe(
               (imageBlob: Blob) => {
                 const url = URL.createObjectURL(imageBlob);
+
                 this.postImages.push({ postId, url });
                 this.postImages.sort((a, b) => b.postId - a.postId);
               },
@@ -146,12 +143,12 @@ export class ProfilePageComponent implements OnInit {
   onNavButtonClick(item: string): void {
     console.log(`${item} clicked`);
     if(item == 'Public') {
-      this.loadUserPostImages(false); // Load only public posts
+      this.loadUserPostImages(false);
     }
     if(item == 'Private') {
-      this.loadUserPostImages(true); // Load only private posts
+      this.loadUserPostImages(true);
     }
-    if(item == 'Saved') {
+    if(item == 'Liked') {
       this.router.navigate(['/SavedPhotos']);
     }
     if(item == 'Edit') {
@@ -168,7 +165,11 @@ export class ProfilePageComponent implements OnInit {
     console.log(`Category selected: ${category}`);
     this.filterName = category;
     this.showCategoryList = false;
-    this.loadFilteredPosts(category);
+    if (category === 'All') {
+      this.loadUserPostImages();
+    } else {
+      this.loadFilteredPosts(category);
+    }
   }
 
   loadFilteredPosts(category: string): void {
@@ -177,13 +178,7 @@ export class ProfilePageComponent implements OnInit {
         (posts) => {
           const userPosts = posts.filter(post => post.userId === this.currentUserId);
           this.postImages = [];
-          this.postImages = userPosts.map((post) => ({
-            postId: post.id,
-            url: post.imageUrl
-          }));
-          this.postImages.forEach(postImage => {
-            this.loadPostImage(postImage.postId, null);
-          });
+          userPosts.forEach(post => this.loadPostImage(post.id, null));
         },
         (error) => {
           console.error('Failed to load posts by category: ', error);

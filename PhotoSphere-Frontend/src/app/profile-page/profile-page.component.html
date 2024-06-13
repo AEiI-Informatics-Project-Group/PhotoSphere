@@ -16,7 +16,7 @@
     </div>
     <section class="profile-navigation">
       <div class = "profile-nav-bar-item">
-        <button *ngIf="isCurrentUserProfile" class="navigation-button saved" (click)="onNavButtonClick('Saved')">Saved</button>
+        <button *ngIf="isCurrentUserProfile" class="navigation-button saved" (click)="onNavButtonClick('Liked')">Liked</button>
         <button *ngIf="isCurrentUserProfile" class="navigation-button edit-profile" (click)="onNavButtonClick('Edit')">Edit profile</button>
       </div>
     </section>
@@ -37,6 +37,7 @@
     </div>
     <div *ngIf="showCategoryList" class="category-list">
       <ul>
+        <li (click)="onCategorySelected('All')">All</li>
         <li *ngFor="let category of categories" (click)="onCategorySelected(category)">{{ category }}</li>
       </ul>
     </div>
