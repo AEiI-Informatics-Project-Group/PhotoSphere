@@ -35,6 +35,7 @@ export class AddNewPhotoComponent implements OnInit {
     createdAt: new Date(),
   };
   isSubmitting: boolean = false;
+  tagsInput: string = '';
 
   constructor(
     private postService: PostService,
@@ -44,25 +45,25 @@ export class AddNewPhotoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loadPostImage();
+   // this.loadPostImage();
   }
 
-  loadPostImage(): void {
-    const postId = this.post.id;
-    if (postId !== undefined) {
-      this.postService.downloadPostImage(postId).subscribe(
-        (imageBlob: Blob) => {
-          const url = URL.createObjectURL(imageBlob);
-          this.postImageSrc = this.sanitizer.bypassSecurityTrustUrl(url);
-        },
-        (error) => {
-          console.error('Failed to load post image:', error);
-        }
-      );
-    } else {
-      console.error('Post ID is undefined');
-    }
-  }
+  // loadPostImage(): void {
+  //   const postId = this.post.id;
+  //   if (postId !== undefined) {
+  //     this.postService.downloadPostImage(postId).subscribe(
+  //       (imageBlob: Blob) => {
+  //         const url = URL.createObjectURL(imageBlob);
+  //         this.postImageSrc = this.sanitizer.bypassSecurityTrustUrl(url);
+  //       },
+  //       (error) => {
+  //         console.error('Failed to load post image:', error);
+  //       }
+  //     );
+  //   } else {
+  //     console.error('Post ID is undefined');
+  //   }
+  // }
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -107,7 +108,7 @@ export class AddNewPhotoComponent implements OnInit {
         console.log('Post created successfully:', createdPost);
         this.post.id = createdPost.id;
         if (this.selectedPhoto) {
-          this.uploadImageAndSavePost();
+          this.uploadImageAndSavePost(createdPost.id);
         } else {
           const userId = this.authService.loggedUser.id;
           this.router.navigate(['/ProfilePage', userId]);
@@ -120,16 +121,16 @@ export class AddNewPhotoComponent implements OnInit {
     });
   }
 
-  uploadImageAndSavePost(): void {
+  uploadImageAndSavePost(postId: number): void {
     const fileInput = document.getElementById('upload-photo') as HTMLInputElement;
     if (fileInput.files && fileInput.files[0]) {
       const formData = new FormData();
       formData.append('image', fileInput.files[0]);
-
-      this.postService.uploadPostImage(this.post.id, formData).subscribe({
+      this.postService.uploadPostImage(postId, formData).subscribe({
         next: (response) => {
           this.post.imageUrl = response.imageUrl;
-          this.savePost(this.post);
+          console.log('Image uploaded successfully:', response.imageUrl);
+          this.saveTags();
         },
         error: err => {
           console.error('Error uploading image', err);
@@ -138,20 +139,39 @@ export class AddNewPhotoComponent implements OnInit {
           this.router.navigate(['/ProfilePage', userId]);
         }
       });
+    } else {
+      console.log('No file selected');
     }
   }
 
-  savePost(newPost: Post): void {
-    this.postService.updatePost(newPost).subscribe({
-      next: updatedPost => {
-        console.log('Post updated successfully:', updatedPost);
-        const userId = this.authService.loggedUser.id;
-        this.router.navigate(['/ProfilePage', userId]);
-      },
-      error: err => {
-        console.error('Error updating post', err);
-        this.isSubmitting = false;
-      }
-    });
+  saveTags(): void {
+    const tags = this.tagsInput.split(',').map(tag => tag.trim()).filter(tag => tag);
+
+    if (tags.length > 0) {
+      this.postService.addTagsToPost(this.post.id, tags).subscribe({
+        next: () => {
+          console.log('Tags saved successfully');
+          const userId = this.authService.loggedUser.id;
+          this.router.navigate(['/ProfilePage', userId]);
+        },
+        error: err => {
+          console.error('Error saving tags', err);
+          this.isSubmitting = false;
+        }
+      });
+    }
   }
+  // savePost(newPost: Post): void {
+  //   this.postService.updatePost(newPost).subscribe({
+  //     next: updatedPost => {
+  //       console.log('Post updated successfully:', updatedPost);
+  //       const userId = this.authService.loggedUser.id;
+  //       this.router.navigate(['/ProfilePage', userId]);
+  //     },
+  //     error: err => {
+  //       console.error('Error updating post', err);
+  //       this.isSubmitting = false;
+  //     }
+  //   });
+  // }
 }

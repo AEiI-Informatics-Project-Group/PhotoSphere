@@ -81,14 +81,6 @@ export class EditPhotoComponent implements OnInit {
     }
   }
 
-  checkOnly(event: Event): void {
-    const checkbox = event.target as HTMLInputElement;
-    const checkboxes = document.getElementsByName('visibility') as NodeListOf<HTMLInputElement>;
-    checkboxes.forEach((item) => {
-      if (item !== checkbox) item.checked = false;
-    });
-  }
-
   onDeletePost(): void {
     if (this.post.id) {
       this.postService.deletePostById(this.post.id).subscribe(
