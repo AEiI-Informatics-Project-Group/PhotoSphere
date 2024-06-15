@@ -45,25 +45,7 @@ export class AddNewPhotoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-   // this.loadPostImage();
   }
-
-  // loadPostImage(): void {
-  //   const postId = this.post.id;
-  //   if (postId !== undefined) {
-  //     this.postService.downloadPostImage(postId).subscribe(
-  //       (imageBlob: Blob) => {
-  //         const url = URL.createObjectURL(imageBlob);
-  //         this.postImageSrc = this.sanitizer.bypassSecurityTrustUrl(url);
-  //       },
-  //       (error) => {
-  //         console.error('Failed to load post image:', error);
-  //       }
-  //     );
-  //   } else {
-  //     console.error('Post ID is undefined');
-  //   }
-  // }
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -161,17 +143,4 @@ export class AddNewPhotoComponent implements OnInit {
       });
     }
   }
-  // savePost(newPost: Post): void {
-  //   this.postService.updatePost(newPost).subscribe({
-  //     next: updatedPost => {
-  //       console.log('Post updated successfully:', updatedPost);
-  //       const userId = this.authService.loggedUser.id;
-  //       this.router.navigate(['/ProfilePage', userId]);
-  //     },
-  //     error: err => {
-  //       console.error('Error updating post', err);
-  //       this.isSubmitting = false;
-  //     }
-  //   });
-  // }
 }

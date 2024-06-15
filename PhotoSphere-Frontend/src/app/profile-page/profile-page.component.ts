@@ -55,10 +55,11 @@ export class ProfilePageComponent implements OnInit {
 
   loadUserPostImages(isPrivate: boolean | null = null): void {
     if (this.currentUserId !== undefined) {
+      const filterPrivatePosts = this.isCurrentUserProfile ? isPrivate : false;
       this.postService.getPostIdsByUserId(this.currentUserId).subscribe(
         (postIds: number[]) => {
           this.postImages = [];
-          postIds.forEach(postId => this.loadPostImage(postId, isPrivate));
+          postIds.forEach(postId => this.loadPostImage(postId, filterPrivatePosts));
         },
         (error) => {
           console.error('Failed to load post IDs:', error);

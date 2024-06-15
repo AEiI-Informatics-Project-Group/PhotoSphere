@@ -2,18 +2,23 @@ import {Component} from '@angular/core';
 import {Router} from "@angular/router";
 import {CommonModule} from "@angular/common";
 import {AuthService} from "../services/auth.service";
+import {FormsModule} from "@angular/forms";
 
 
 @Component({
   selector: 'app-nav-bar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.css'
 })
 export class NavBarComponent {
+  searchQuery: string = '';
 
-  constructor(private router: Router, public authService: AuthService) {}
+  constructor(
+    private router: Router,
+    public authService: AuthService
+  ) {}
 
 
   onNavItemClick(item: string): void {
@@ -32,7 +37,14 @@ export class NavBarComponent {
       this.router.navigate(['/ProfilePage', userId]);
     }
   }
+
   logOut(): void {
     this.authService.logOut();
+  }
+
+  onKeyPress(event: KeyboardEvent): void {
+    if (event.key === 'Enter' && this.searchQuery.trim() !== '') {
+      this.router.navigate(['/SearchResults'], { queryParams: { tag: this.searchQuery.trim() } });
+    }
   }
 }

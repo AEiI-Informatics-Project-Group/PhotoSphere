@@ -19,11 +19,11 @@ export class TagService {
     return this.http.get<Tag>(`${this.apiUrl}/${tagId}`);
   }
 
-  createTag(tag: Tag): Observable<Tag> {
-    return this.http.post<Tag>(this.apiUrl, tag);
+  getTagByName(tagName: string): Observable<Tag> {
+    return this.http.get<Tag>(`${this.apiUrl}/name/${tagName}`);
   }
 
-  deleteTag(tagId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${tagId}`);
+  createTag(tag: Tag): Observable<Tag> {
+    return this.http.post<Tag>(this.apiUrl, tag);
   }
 }

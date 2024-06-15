@@ -3,7 +3,9 @@
     <ul class="nav-list">
       <li><button class="nav-item popular" tabindex="0" (click)="onNavItemClick('Popular')">Popular</button></li>
       <li><button class="nav-item new" tabindex="0" (click)="onNavItemClick('New')">Recent</button></li>
-      <li><button class="nav-item search" tabindex="0" (click)="onNavItemClick('Search')">Type to search</button></li>
+      <li>
+        <input type="text" placeholder="Type to search" [(ngModel)]="searchQuery" (keypress)="onKeyPress($event)" class="nav-item search" />
+      </li>
       <li><button class="nav-item create" tabindex="0" (click)="onNavItemClick('Create')">Create</button></li>
       <li><button class="nav-item account" tabindex="0" (click)="onNavItemClick('Account')">Account</button></li>
       <li><button class="nav-item logout" tabindex="0" (click)="logOut()">Log out</button></li>

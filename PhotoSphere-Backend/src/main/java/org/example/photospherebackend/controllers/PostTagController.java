@@ -1,4 +1,5 @@
 package org.example.photospherebackend.controllers;
+import org.example.photospherebackend.DTOs.PostDTO;
 import org.example.photospherebackend.DTOs.PostTagDTO;
 import org.example.photospherebackend.DTOs.TagDTO;
 import org.example.photospherebackend.models.*;
@@ -20,12 +21,14 @@ public class PostTagController {
     private final PostTagService postTagService;
     private final PostService postService;
     private final TagService tagService;
+    private final PostController postController;
 
     @Autowired
-    public PostTagController(PostTagService postTagService, PostService postService, TagService tagService) {
+    public PostTagController(PostTagService postTagService, PostService postService, TagService tagService, PostController postController) {
         this.postTagService = postTagService;
         this.postService = postService;
         this.tagService = tagService;
+        this.postController = postController;
     }
 
     @GetMapping
@@ -76,6 +79,13 @@ public class PostTagController {
         List<Tag> tags = postTagService.getTagsByPostId(postId);
         List<TagDTO> tagDTOs = tags.stream().map(this::convertToDTO).collect(Collectors.toList());
         return ResponseEntity.ok(tagDTOs);
+    }
+
+    @GetMapping("/tag/{tagId}/posts")
+    public ResponseEntity<List<PostDTO>> getPostsByTagId(@PathVariable Long tagId) {
+        List<Post> posts = postTagService.getPostsByTagId(tagId);
+        List<PostDTO> postDTOs = posts.stream().map(postController::convertToDTO).collect(Collectors.toList());
+        return ResponseEntity.ok(postDTOs);
     }
 
     private PostTagDTO convertToDTO(PostTag postTag) {

@@ -42,7 +42,7 @@ export class NewPhotosPageComponent implements OnInit{
           const createdAt = Number(post.createdAt);
           const postDate = new Date(createdAt * 1000);
           console.log(`Post ID: ${post.id}, Created At: ${postDate.toLocaleString()}, Is Recent: ${postDate >= last24Hours}`);
-          return postDate >= last24Hours;
+          return postDate >= last24Hours && !post.private;
         });
 
         this.posts.sort((a, b) => {

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {forkJoin, map, mergeMap, Observable, throwError} from 'rxjs';
+import {catchError, forkJoin, map, mergeMap, Observable, switchMap, throwError} from 'rxjs';
 import {User} from "../models/user.model";
 import {Post} from "../models/post.model";
 import {TagService} from "./tag.service";
@@ -82,19 +82,31 @@ export class PostService {
     return this.http.get<string[]>(url);
   }
 
+  getPostsByTagId(tagId: number): Observable<Post[]> {
+    const url = `${this.tagsApiUrl}/tag/${tagId}/posts`;
+    return this.http.get<Post[]>(url);
+  }
+
+  searchPostsByTagName(tagName: string): Observable<Post[]> {
+    return this.tagService.getTagByName(tagName).pipe(
+      switchMap(tag => this.getPostsByTagId(tag.id)),
+      map(posts => posts.filter(post => !post.private))
+    );
+  }
+
   addTagsToPost(postId: number, tags: string[]): Observable<void[]> {
-    const requests = tags.map(tagName => {
-      const tag: Tag = { id: 0, name: tagName };
-      console.log(`Creating tag: ${tagName}`);
-      return this.tagService.createTag(tag).pipe(
-        mergeMap(createdTag => {
-          console.log(`Created tag with ID: ${createdTag.id}`);
-          const postTagPayload = { postId, tagId: createdTag.id };
-          console.log(`Associating tag with post: `, postTagPayload);
+    const requests = tags.map((tagName) =>
+      this.tagService.getTagByName(tagName).pipe(
+        catchError(() => {
+          const newTag: Tag = { id: 0, name: tagName };
+          return this.tagService.createTag(newTag);
+        }),
+        switchMap((tag) => {
+          const postTagPayload = { postId, tagId: tag.id };
           return this.http.post<void>(this.tagsApiUrl, postTagPayload);
         })
-      );
-    });
+      )
+    );
     return forkJoin(requests);
   }
 
