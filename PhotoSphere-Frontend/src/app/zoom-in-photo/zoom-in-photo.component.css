@@ -253,6 +253,7 @@
   display: flex;
   gap: 10px;
   cursor: pointer;
+
 }
 
 .like, .dislike, .sad, .funny, .shocked {
@@ -260,6 +261,11 @@
   align-items: center;
   gap: 3px;
   font-size: 14px;
+  color: #000;
+}
+
+.comment-like-count
+{
   color: #000;
 }
 

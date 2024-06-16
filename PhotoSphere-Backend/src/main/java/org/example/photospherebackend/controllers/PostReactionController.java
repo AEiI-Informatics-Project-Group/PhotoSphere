@@ -118,7 +118,7 @@ public class PostReactionController {
         orderedReactionSummary.put("like", reactionSummary.getOrDefault("like", 0L));
         orderedReactionSummary.put("dislike", reactionSummary.getOrDefault("dislike", 0L));
         orderedReactionSummary.put("funny", reactionSummary.getOrDefault("funny", 0L));
-        orderedReactionSummary.put("wow", reactionSummary.getOrDefault("wow", 0L));
+        orderedReactionSummary.put("shocked", reactionSummary.getOrDefault("shocked", 0L));
         orderedReactionSummary.put("sad", reactionSummary.getOrDefault("sad", 0L));
         return ResponseEntity.ok(orderedReactionSummary);
     }

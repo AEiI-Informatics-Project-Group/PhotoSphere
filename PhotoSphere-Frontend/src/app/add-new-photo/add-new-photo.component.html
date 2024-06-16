@@ -26,7 +26,9 @@
         </div>
         <div class="form-group">
           <label for="category" class="label-name">Category</label>
-          <input type="text" id="category" [(ngModel)]="post.category" name="category" class="input-field" required />
+          <select id="category" [(ngModel)]="post.category" name="category" class="input-field" required>
+            <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+          </select>
         </div>
         <div class="form-group">
           <label for="tags" class="label-name">Tags</label>
@@ -44,7 +46,7 @@
             </label>
           </div>
         </div>
-        <button type="submit"  class="create-button" [disabled]="!addPhotoForm.valid || !selectedPhoto">CREATE YOUR POST!</button>
+        <button type="submit" class="create-button" [disabled]="!addPhotoForm.valid || !selectedPhoto">CREATE YOUR POST!</button>
       </form>
     </section>
   </main>

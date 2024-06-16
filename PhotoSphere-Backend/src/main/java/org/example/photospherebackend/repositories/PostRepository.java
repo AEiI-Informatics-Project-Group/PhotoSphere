@@ -15,4 +15,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query("SELECT DISTINCT p.category FROM Post p WHERE p.user.id = :userId")
     List<String> findDistinctCategoriesByUserId(@Param("userId") Long userId);
+
+    @Query("SELECT DISTINCT p.category FROM Post p")
+    List<String> findAllCategories();
 }

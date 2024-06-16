@@ -25,7 +25,7 @@ public class AppUserService {
 
     private final AppUserRepository appUserRepository;
     private final AmazonS3 amazonS3;
-    private final String bucketName = "photo-test";
+    private final String bucketName = "photosphere-bucket-seba";
 
     @Autowired
     public AppUserService(AppUserRepository appUserRepository, AmazonS3 amazonS3) {

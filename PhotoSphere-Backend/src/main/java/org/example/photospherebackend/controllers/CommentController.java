@@ -110,6 +110,7 @@ public class CommentController {
         commentDTO.setUserId(comment.getUser().getId());
         commentDTO.setText(comment.getText());
         commentDTO.setCreatedAt(comment.getCreatedAt());
+        commentDTO.setUsername(comment.getUser().getUsername());
         return commentDTO;
     }
 

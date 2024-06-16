@@ -25,7 +25,7 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final AmazonS3 amazonS3;
-    private final String bucketName = "photosphere-bucket";
+    private final String bucketName = "photosphere-bucket-seba";
 
     @Autowired
     public PostService(PostRepository postRepository, AmazonS3 amazonS3) {
@@ -43,6 +43,10 @@ public class PostService {
 
     public Post createPost(Post post) {
         return postRepository.save(post);
+    }
+
+    public List<String> getAllCategories() {
+        return postRepository.findAllCategories();
     }
 
     public Post updatePost(Post post) {
