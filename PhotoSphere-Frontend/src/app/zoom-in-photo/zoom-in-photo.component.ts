@@ -102,14 +102,6 @@ export class ZoomInPhotoComponent implements OnInit {
     window.scrollTo(0, 0);
   }
 
-  checkOnly(event: Event): void {
-    const checkbox = event.target as HTMLInputElement;
-    const checkboxes = document.getElementsByName('visibility') as NodeListOf<HTMLInputElement>;
-    checkboxes.forEach((item) => {
-      if (item !== checkbox) item.checked = false;
-    });
-  }
-
   onItemClick(item: string): void {
     console.log(`${item} clicked`);
     if (item == 'Edit') {

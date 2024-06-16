@@ -31,7 +31,7 @@ export class NewPhotosPageComponent implements OnInit{
 
   loadRecentPosts(): void {
     const now = new Date();
-    const last24Hours = new Date(now.getTime() - 48 * 60 * 60 * 1000);
+    const last24Hours = new Date(now.getTime() - 24 * 60 * 60 * 1000);
 
     this.postService.getAllPosts().subscribe(
       (posts: Post[]) => {
@@ -42,7 +42,7 @@ export class NewPhotosPageComponent implements OnInit{
           const createdAt = Number(post.createdAt);
           const postDate = new Date(createdAt * 1000);
           console.log(`Post ID: ${post.id}, Created At: ${postDate.toLocaleString()}, Is Recent: ${postDate >= last24Hours}`);
-          return postDate >= last24Hours;
+          return postDate >= last24Hours && !post.private;
         });
 
         this.posts.sort((a, b) => {
@@ -57,7 +57,6 @@ export class NewPhotosPageComponent implements OnInit{
       }
     );
   }
-
 
   loadPostImages(): void {
     this.posts.forEach(post => {

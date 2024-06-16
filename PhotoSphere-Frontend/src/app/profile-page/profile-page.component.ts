@@ -55,10 +55,11 @@ export class ProfilePageComponent implements OnInit {
 
   loadUserPostImages(isPrivate: boolean | null = null): void {
     if (this.currentUserId !== undefined) {
+      const filterPrivatePosts = this.isCurrentUserProfile ? isPrivate : false;
       this.postService.getPostIdsByUserId(this.currentUserId).subscribe(
         (postIds: number[]) => {
           this.postImages = [];
-          postIds.forEach(postId => this.loadPostImage(postId, isPrivate));
+          postIds.forEach(postId => this.loadPostImage(postId, filterPrivatePosts));
         },
         (error) => {
           console.error('Failed to load post IDs:', error);
@@ -77,10 +78,17 @@ export class ProfilePageComponent implements OnInit {
           if (isPrivate === null || postIsPrivate === isPrivate) {
             this.postService.downloadPostImage(postId).subscribe(
               (imageBlob: Blob) => {
-                const url = URL.createObjectURL(imageBlob);
-
-                this.postImages.push({ postId, url });
-                this.postImages.sort((a, b) => b.postId - a.postId);
+                if (imageBlob && imageBlob.size > 0) {
+                  try {
+                    const url = URL.createObjectURL(imageBlob);
+                    this.postImages.push({ postId, url });
+                    this.postImages.sort((a, b) => b.postId - a.postId);
+                  } catch (error) {
+                    console.error('Failed to create object URL:', error);
+                  }
+                } else {
+                  console.error(`Received empty blob for post ID ${postId}`);
+                }
               },
               (error) => {
                 console.error(`Failed to load image for post ID ${postId}:`, error);
@@ -101,8 +109,16 @@ export class ProfilePageComponent implements OnInit {
     if (this.currentUserId !== undefined) {
       this.userService.downloadUserImage(this.currentUserId).subscribe(
         (imageBlob: Blob) => {
-          const url = URL.createObjectURL(imageBlob);
-          this.profileImageSrc = this.sanitizer.bypassSecurityTrustUrl(url);
+          if (imageBlob && imageBlob.size > 0) {
+            try {
+              const url = URL.createObjectURL(imageBlob);
+              this.profileImageSrc = this.sanitizer.bypassSecurityTrustUrl(url);
+            } catch (error) {
+              console.error('Failed to create object URL for profile image:', error);
+            }
+          } else {
+            console.error('Received empty blob for profile image');
+          }
         },
         (error) => {
           console.error('Failed to load user image:', error);

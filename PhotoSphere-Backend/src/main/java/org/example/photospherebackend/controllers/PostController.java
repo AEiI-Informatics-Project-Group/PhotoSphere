@@ -160,7 +160,7 @@ public class PostController {
         return ResponseEntity.ok(categories);
     }
 
-    private PostDTO convertToDTO(Post post) {
+    public PostDTO convertToDTO(Post post) {
         PostDTO postDTO = new PostDTO();
         postDTO.setId(post.getId());
         postDTO.setUserId(post.getUser().getId());

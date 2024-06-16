@@ -1,5 +1,6 @@
 package org.example.photospherebackend.services;
 
+import org.example.photospherebackend.models.Post;
 import org.example.photospherebackend.models.PostTag;
 import org.example.photospherebackend.models.PostTagId;
 import org.example.photospherebackend.models.Tag;
@@ -38,5 +39,9 @@ public class PostTagService {
 
     public List<Tag> getTagsByPostId(Long postId) {
         return postTagRepository.findTagsByPostId(postId);
+    }
+
+    public List<Post> getPostsByTagId(Long tagId) {
+        return postTagRepository.findPostsByTagId(tagId);
     }
 }

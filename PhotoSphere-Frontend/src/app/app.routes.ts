@@ -11,6 +11,7 @@ import {EditPhotoComponent} from "./edit-photo/edit-photo.component";
 import {ZoomInPhotoComponent} from "./zoom-in-photo/zoom-in-photo.component";
 import {EditProfileComponent} from "./edit-profile/edit-profile.component";
 import {ExampleS3ApiComponent} from "./example-s3-api/example-s3-api.component";
+import {SearchResultsComponent} from "./search-results/search-results.component";
 
 export const routes: Routes = [
   {path: 'registration', component: RegistrationPageComponent},
@@ -24,6 +25,7 @@ export const routes: Routes = [
   {path: 'EditPhoto', component: EditPhotoComponent},
   {path: 'ZoomInPhoto', component: ZoomInPhotoComponent},
   {path: 'EditProfile', component: EditProfileComponent},
+  {path: 'SearchResults', component: SearchResultsComponent},
   {path: 'ApiTest', component: ExampleS3ApiComponent},
   {path: '', redirectTo: 'logging', pathMatch: 'full'},
 ];

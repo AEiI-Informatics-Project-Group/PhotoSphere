@@ -50,6 +50,16 @@ public class TagController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/name/{name}")
+    public ResponseEntity<TagDTO> getTagByName(@PathVariable String name) {
+        Optional<Tag> tag = tagService.getTagByName(name);
+        if (tag.isPresent()) {
+            return ResponseEntity.ok(convertToDTO(tag.get()));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     private TagDTO convertToDTO(Tag tag) {
         TagDTO tagDTO = new TagDTO();
         tagDTO.setId(tag.getId());
