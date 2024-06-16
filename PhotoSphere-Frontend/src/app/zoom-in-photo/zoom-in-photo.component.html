@@ -13,7 +13,7 @@
             <div class="photo-placeholder">No Image Available</div>
           </ng-template>
           <div class="photo-interactions">
-            <span>Comments: 5</span>
+            <span>Comments: {{commentCount}}</span>
             <div class="interaction-item">
               <img [src]="likeIconSrc" alt="Like Icon" class="interaction-icon">
               <span>16</span>
@@ -58,27 +58,26 @@
       <label class="label-comments">Comments</label>
     </div>
     <section class="comment-section">
-      <div class="comment" *ngFor="let comment of comments">
+      <div class="comment" *ngFor="let comment of comments; let i = index">
         <div class="comment-content">
-          <span class="username">{{comment.username}}:</span>:
-          <span class="comment-text">{{comment.text}}</span>
-          <img src="assets/icons/bin.png" alt="Delete" class="bin-icon"> <!--(click)="onDeleteComment(i)"-->
+          <span class="username" (click)="navigateToUserProfile(comment.userId)">{{ comment.username }}:</span>
+          <span class="comment-text">{{ comment.text }}</span>
+          <img *ngIf="comment.userId === this.authService.loggedUser.id" [src]="binIconSrc" alt="Delete" class="bin-icon" (click)="onDeleteComment(i)">
         </div>
         <div class="comment-actions">
-          <a href="#" class="reply">Reply</a>
           <span class="action-icons">
-            <span class="like">4 <img src="assets/icons/like.png" alt="Like" class="interaction-icon"></span>
-            <span class="dislike">1 <img src="assets/icons/dislike.png" alt="Dislike" class="interaction-icon"></span>
-            <span class="sad">2 <img src="assets/icons/sad.png" alt="Sad" class="interaction-icon"></span>
-            <span class="funny">3 <img src="assets/icons/funny.png" alt="Funny" class="interaction-icon"></span>
-            <span class="shocked">0 <img src="assets/icons/shocked.png" alt="Shocked" class="interaction-icon"></span>
+            <span class="like">4 <img [src]="likeIconSrc" alt="Like" class="interaction-icon"></span>
+            <span class="dislike">1 <img [src]="dislikeIconSrc" alt="Dislike" class="interaction-icon"></span>
+            <span class="sad">2 <img [src]="sadIconSrc" alt="Sad" class="interaction-icon"></span>
+            <span class="funny">3 <img [src]="funnyIconSrc" alt="Funny" class="interaction-icon"></span>
+            <span class="shocked">0 <img [src]="shockedIconSrc" alt="Shocked" class="interaction-icon"></span>
           </span>
         </div>
       </div>
     </section>
     <section class="add-comment-section">
-      <input type="text" class="comment-input" placeholder="Write your comment here"/>
-      <button class="add-comment-button">
+      <input type="text" class="comment-input" placeholder="Write your comment here" [(ngModel)]="newComment"/>
+      <button class="add-comment-button" (click)="addComment()">
         <img [src]="addIconSrc" alt="Add Icon" class="add-icon">
       </button>
     </section>

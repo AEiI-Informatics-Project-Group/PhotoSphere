@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { NavBarComponent } from "../nav-bar/nav-bar.component";
 import { FormsModule, NgForm, ReactiveFormsModule } from "@angular/forms";
 import { PostService } from "../services/post.service";
-import { CommonModule, NgIf } from "@angular/common";
+import {CommonModule, NgForOf, NgIf} from "@angular/common";
 import { AuthService } from '../services/auth.service';
 import { Post } from "../models/post.model";
 import { Router } from "@angular/router";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
+import { CategoryService } from '../services/category.service';  // Import CategoryService
 
 @Component({
   selector: 'app-add-new-photo',
@@ -15,7 +16,8 @@ import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
     NavBarComponent,
     FormsModule,
     ReactiveFormsModule,
-    NgIf
+    NgIf,
+    NgForOf
   ],
   templateUrl: './add-new-photo.component.html',
   styleUrls: ['./add-new-photo.component.css']
@@ -36,15 +38,30 @@ export class AddNewPhotoComponent implements OnInit {
   };
   isSubmitting: boolean = false;
   tagsInput: string = '';
+  categories: string[] = [];  // Array to hold categories
 
   constructor(
     private postService: PostService,
     private authService: AuthService,
     private sanitizer: DomSanitizer,
-    private router: Router
+    private router: Router,
+    private categoryService: CategoryService  // Inject CategoryService
   ) { }
 
   ngOnInit(): void {
+    this.loadCategories();  // Load categories on initialization
+  }
+
+  loadCategories(): void {
+    this.categoryService.getCategories().subscribe({
+      next: categories => {
+        this.categories = categories;
+        console.log('Categories loaded:', this.categories);  // Add a console log to debug
+      },
+      error: err => {
+        console.error('Error fetching categories', err);
+      }
+    });
   }
 
   onFileSelected(event: Event): void {

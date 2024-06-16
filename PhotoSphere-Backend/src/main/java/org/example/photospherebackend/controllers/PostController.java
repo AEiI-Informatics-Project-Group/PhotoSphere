@@ -147,6 +147,12 @@ public class PostController {
         return ResponseEntity.ok(postIds);
     }
 
+    @GetMapping("/categories")
+    public ResponseEntity<List<String>> getAllCategories() {
+        List<String> categories = postService.getAllCategories();
+        return ResponseEntity.ok(categories);
+    }
+
     @GetMapping("/category/{category}")
     public ResponseEntity<List<PostDTO>> getPostsByCategory(@PathVariable String category) {
         List<Post> posts = postService.getPostsByCategory(category);
