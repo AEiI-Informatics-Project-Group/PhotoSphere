@@ -8,9 +8,12 @@ import { UserService } from "../services/user.service";
 import { Post } from "../models/post.model";
 import { PostService } from "../services/post.service";
 import { CommentService } from "../services/comment.service";  // Import CommentService
+import { ReactionService } from "../services/reaction.service";  // Import ReactionService
 import { Comment } from '../models/comment.model';  // Import Comment model
+import { CommentReactionService } from '../services/commentReaction.service'; // Import CommentReactionService
 import { User } from "../models/user.model";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
+import { CommentReaction } from "../models/commentReaction.model";
 
 @Component({
   selector: 'app-zoom-in-photo',
@@ -43,6 +46,10 @@ export class ZoomInPhotoComponent implements OnInit {
   newComment: string = '';  // Add a new comment property
   commentCount: number = 0;  // Add a property to keep track of the number of comments
 
+  // Add properties to hold reaction counts
+  reactionCounts: Map<string, number> = new Map();
+  commentReactionCounts: Map<number, Map<string, number>> = new Map();
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -50,7 +57,9 @@ export class ZoomInPhotoComponent implements OnInit {
     protected authService: AuthService,
     private postService: PostService,
     private sanitizer: DomSanitizer,
-    private commentService: CommentService  // Inject CommentService
+    private commentService: CommentService,  // Inject CommentService
+    private reactionService: ReactionService,  // Inject ReactionService
+    private commentReactionService: CommentReactionService  // Inject CommentReactionService
   ) {}
 
   ngOnInit() {
@@ -60,6 +69,7 @@ export class ZoomInPhotoComponent implements OnInit {
       if (this.postId) {
         this.fetchPostDetails();
         this.getComments();
+        this.getReactionCounts();
       }
     });
     this.scrollToTop();
@@ -72,7 +82,7 @@ export class ZoomInPhotoComponent implements OnInit {
           this.postDetails = post;
           if (post.userId !== undefined) {
             this.fetchCreatorUsername(post.userId);
-            this.isCurrentUserOwner = post.userId === this.authService.loggedUser.id;
+            this.isCurrentUserOwner = post.userId === this.authService.loggedUser?.id;
           } else {
             console.error('User ID is undefined');
           }
@@ -150,6 +160,57 @@ export class ZoomInPhotoComponent implements OnInit {
       this.commentService.getCommentsByPostId(this.postId).subscribe(comments => {
         this.comments = comments;
         this.commentCount = comments.length;  // Set the comment count
+        comments.forEach(comment => this.getCommentReactionCounts(comment.id));  // Fetch reactions for each comment
+      });
+    }
+  }
+
+  getReactionCounts(): void {
+    if (this.postId !== null) {
+      this.reactionService.getReactionCountsByPostId(this.postId).subscribe(reactionCounts => {
+        console.log(' reaction counts:', reactionCounts);
+        this.reactionCounts = reactionCounts;
+      });
+    }
+  }
+
+  addReaction(reactionType: string): void {
+    const userId = this.authService.loggedUser?.id;
+    if (this.postId !== null && userId !== undefined) {
+      const reaction = {
+        postId: this.postId,
+        userId: userId,
+        reaction: reactionType,
+        createdAt: new Date()
+      };
+
+      this.reactionService.createOrUpdateReaction(reaction).subscribe(() => {
+        this.getReactionCounts();  // Update reaction counts after adding a reaction
+      });
+    }
+  }
+
+  getCommentReactionCounts(commentId: number): void {
+    this.commentReactionService.getReactionCountsByCommentId(commentId).subscribe(commentReactionCounts => {
+      console.log('Comment reaction counts:', commentReactionCounts);  // Add this line
+      this.commentReactionCounts.set(commentId, commentReactionCounts);
+    });
+
+  }
+
+
+  addCommentReaction(commentId: number, reactionType: string): void {
+    const userId = this.authService.loggedUser?.id;
+    if (userId !== undefined) {
+      const reaction: CommentReaction = {
+        commentId: commentId,
+        userId: userId,
+        reaction: reactionType,
+        createdAt: new Date()
+      };
+
+      this.commentReactionService.createOrUpdateCommentReaction(reaction).subscribe(() => {
+        this.getCommentReactionCounts(commentId);  // Update reaction counts for the comment
       });
     }
   }

@@ -15,28 +15,28 @@
           <div class="photo-interactions">
             <span>Comments: {{commentCount}}</span>
             <div class="interaction-item">
-              <img [src]="likeIconSrc" alt="Like Icon" class="interaction-icon">
-              <span>16</span>
+              <img [src]="likeIconSrc" alt="Like Icon" class="interaction-icon" (click)="addReaction('like')">
+              <span>{{reactionCounts.get('like') || 0}}</span>
             </div>
             <div class="interaction-item">
-              <img [src]="dislikeIconSrc" alt="Dislike Icon" class="interaction-icon">
-              <span>16</span>
+              <img [src]="dislikeIconSrc" alt="Dislike Icon" class="interaction-icon" (click)="addReaction('dislike')">
+              <span>{{reactionCounts.get('dislike') || 0}}</span>
             </div>
             <div class="interaction-item">
-              <img [src]="funnyIconSrc" alt="Funny Icon" class="interaction-icon">
-              <span>16</span>
+              <img [src]="funnyIconSrc" alt="Funny Icon" class="interaction-icon" (click)="addReaction('funny')">
+              <span>{{reactionCounts.get('funny') || 0}}</span>
             </div>
             <div class="interaction-item">
-              <img [src]="sadIconSrc" alt="Sad Icon" class="interaction-icon">
-              <span>16</span>
+              <img [src]="sadIconSrc" alt="Sad Icon" class="interaction-icon" (click)="addReaction('sad')">
+              <span>{{reactionCounts.get('sad') || 0}}</span>
             </div>
             <div class="interaction-item">
-              <img [src]="shockedIconSrc" alt="Shocked Icon" class="interaction-icon">
-              <span>16</span>
+              <img [src]="shockedIconSrc" alt="Shocked Icon" class="interaction-icon" (click)="addReaction('shocked')">
+              <span>{{reactionCounts.get('shocked') || 0}}</span>
             </div>
           </div>
         </div>
-        <main class="photo-info" >
+        <main class="photo-info">
           <div class="creator-info" (click)="navigateToUserProfile(postDetails?.userId)">
             <span class="creator-username">{{ creatorUsername }}</span>
             <img [src]="creatorImageUrl" alt="Creator" class="creator-photo">
@@ -66,15 +66,21 @@
         </div>
         <div class="comment-actions">
           <span class="action-icons">
-            <span class="like">4 <img [src]="likeIconSrc" alt="Like" class="interaction-icon"></span>
-            <span class="dislike">1 <img [src]="dislikeIconSrc" alt="Dislike" class="interaction-icon"></span>
-            <span class="sad">2 <img [src]="sadIconSrc" alt="Sad" class="interaction-icon"></span>
-            <span class="funny">3 <img [src]="funnyIconSrc" alt="Funny" class="interaction-icon"></span>
-            <span class="shocked">0 <img [src]="shockedIconSrc" alt="Shocked" class="interaction-icon"></span>
+            <img [src]="likeIconSrc" alt="Like Icon" class="interaction-icon" (click)="addCommentReaction(comment.id, 'like')">
+            <span class="comment-like-count">{{commentReactionCounts.get(comment.id)?.get('like') || 0}}</span>
+            <img [src]="dislikeIconSrc" alt="Dislike Icon" class="interaction-icon" (click)="addCommentReaction(comment.id, 'dislike')">
+            <span class="comment-like-count">{{commentReactionCounts.get(comment.id)?.get('dislike') || 0}}</span>
+            <img [src]="funnyIconSrc" alt="Funny Icon" class="interaction-icon" (click)="addCommentReaction(comment.id, 'funny')">
+            <span class="comment-like-count">{{commentReactionCounts.get(comment.id)?.get('funny') || 0}}</span>
+            <img [src]="sadIconSrc" alt="Sad Icon" class="interaction-icon" (click)="addCommentReaction(comment.id, 'sad')">
+            <span class="comment-like-count">{{commentReactionCounts.get(comment.id)?.get('sad') || 0}}</span>
+            <img [src]="shockedIconSrc" alt="Shocked Icon" class="interaction-icon" (click)="addCommentReaction(comment.id, 'shocked')">
+            <span class="comment-like-count">{{commentReactionCounts.get(comment.id)?.get('shocked') || 0}}</span>
           </span>
         </div>
       </div>
     </section>
+
     <section class="add-comment-section">
       <input type="text" class="comment-input" placeholder="Write your comment here" [(ngModel)]="newComment"/>
       <button class="add-comment-button" (click)="addComment()">
