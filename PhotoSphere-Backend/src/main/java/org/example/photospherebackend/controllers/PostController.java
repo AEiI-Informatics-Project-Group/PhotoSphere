@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.util.ReflectionUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.lang.reflect.Field;
@@ -101,6 +103,10 @@ public class PostController {
             String imageUrl = postService.uploadPostImage(image, id, userId);
             existingPost.get().setImageUrl(imageUrl);
             postService.updatePostImageUrl(id, imageUrl);
+            File file = new File(Objects.requireNonNull(image.getOriginalFilename()));
+            if (file.exists()) {
+                file.delete();
+            }
             return ResponseEntity.ok("Image uploaded successfully: " + imageUrl);
         } else {
             return ResponseEntity.notFound().build();
