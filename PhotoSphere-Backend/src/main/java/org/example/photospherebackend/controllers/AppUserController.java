@@ -10,10 +10,12 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -93,6 +95,10 @@ public class AppUserController {
             String imageUrl = appUserService.uploadUserImage(image, existingUser.get().getId());
             existingUser.get().setImage(imageUrl);
             appUserService.updateUserImageUrl(id, imageUrl);
+            File file = new File(Objects.requireNonNull(image.getOriginalFilename()));
+            if (file.exists()) {
+                file.delete();
+            }
             return ResponseEntity.ok("Image uploaded successfully: " + imageUrl);
         } else {
             return ResponseEntity.notFound().build();
