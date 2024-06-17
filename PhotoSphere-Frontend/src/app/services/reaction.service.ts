@@ -28,4 +28,8 @@ export class ReactionService {
   createOrUpdateReaction(reaction: { postId: number; userId: number; reaction: string; createdAt: Date }): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}`, reaction);
   }
+
+  getPostReactions(postId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/post/${postId}`);
+  }
 }

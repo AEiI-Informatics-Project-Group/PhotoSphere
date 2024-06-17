@@ -165,10 +165,30 @@ export class ProfilePageComponent implements OnInit {
       this.loadUserPostImages(true);
     }
     if(item == 'Liked') {
-      this.router.navigate(['/SavedPhotos']);
+      this.loadLikedPosts();
     }
     if(item == 'Edit') {
       this.router.navigate(['/EditProfile']);
+    }
+  }
+
+  loadLikedPosts(): void {
+    if (this.currentUserId !== undefined) {
+      this.postService.getPostReactionsByUserId(this.currentUserId).subscribe(
+        (reactions: any[]) => {
+          const likedPostIds = reactions
+            .filter(reaction => reaction.reaction === 'like')
+            .map(reaction => reaction.postId);
+
+          this.postImages = [];
+          likedPostIds.forEach(postId => this.loadPostImage(postId, null));
+        },
+        (error) => {
+          console.error('Failed to load liked posts:', error);
+        }
+      );
+    } else {
+      console.error('User ID is undefined');
     }
   }
 
@@ -179,7 +199,7 @@ export class ProfilePageComponent implements OnInit {
 
   onCategorySelected(category: string): void {
     console.log(`Category selected: ${category}`);
-    this.filterName = category;
+    this.filterName = category === 'All' ? '' : category;
     this.showCategoryList = false;
     if (category === 'All') {
       this.loadUserPostImages();

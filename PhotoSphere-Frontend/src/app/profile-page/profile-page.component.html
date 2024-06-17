@@ -33,7 +33,7 @@
           <img src="{{filterIconSrc}}" alt="Filter" class="filter-icon"/>
         </button>
       </div>
-      <h2 class="filter-name">{{ filterName }}</h2>
+      <h2 class="filter-name" *ngIf="filterName">{{ filterName }}</h2>
     </div>
     <div *ngIf="showCategoryList" class="category-list">
       <ul>

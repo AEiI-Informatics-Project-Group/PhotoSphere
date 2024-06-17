@@ -12,6 +12,7 @@ import {Tag} from "../models/tag.model";
 export class PostService {
   private apiUrl = 'http://localhost:8080/api/posts';
   private tagsApiUrl = 'http://localhost:8080/api/post-tags';
+  private reactionsApiUrl = 'http://localhost:8080/api/post-reactions';
 
   constructor(private http: HttpClient, private tagService: TagService) {}
 
@@ -108,6 +109,11 @@ export class PostService {
       )
     );
     return forkJoin(requests);
+  }
+
+  getPostReactionsByUserId(userId: number): Observable<any[]> {
+    const url = `${this.reactionsApiUrl}/user/${userId}`;
+    return this.http.get<any[]>(url);
   }
 
   blankPost: Post ={

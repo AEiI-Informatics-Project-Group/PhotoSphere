@@ -12,7 +12,6 @@
           <img *ngIf="selectedPhoto" [src]="selectedPhoto" alt="Selected Photo" class="photo-preview">
           <input type="file" id="upload-photo" (change)="onFileSelected($event)" class="upload-input" required>
           <button class="upload-button" (click)="triggerFileInput()">UPLOAD PHOTO</button>
-          <label class="label-privacy">Do you want everyone to see your photo?</label>
         </header>
       </div>
       <form class="add-photo-form" #addPhotoForm="ngForm" (ngSubmit)="onCreatePost(addPhotoForm)">
@@ -26,15 +25,17 @@
         </div>
         <div class="form-group">
           <label for="category" class="label-name">Category</label>
-          <select id="category" [(ngModel)]="post.category" name="category" class="input-field" required>
-            <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
-          </select>
+          <input list="categories" id="category" [(ngModel)]="post.category" name="category" class="input-field" required />
+          <datalist id="categories">
+            <option *ngFor="let category of categories" [value]="category"></option>
+          </datalist>
         </div>
         <div class="form-group">
           <label for="tags" class="label-name">Tags</label>
           <input type="text" id="tags" [(ngModel)]="tagsInput" name="tags" class="input-field" required />
         </div>
         <div class="form-group visibility-options">
+          <label class="label-privacy">Do you want everyone to see your photo?</label>
           <div class="visibility-inputs">
             <label for="private" class="visibility-label">
               <input type="radio" id="private" [(ngModel)]="post.private" name="visibility" value="true"  />
@@ -46,7 +47,9 @@
             </label>
           </div>
         </div>
-        <button type="submit" class="create-button" [disabled]="!addPhotoForm.valid || !selectedPhoto">CREATE YOUR POST!</button>
+        <div class="button-container">
+          <button type="submit" class="create-button" [disabled]="!addPhotoForm.valid || !selectedPhoto">CREATE YOUR POST!</button>
+        </div>
       </form>
     </section>
   </main>

@@ -25,7 +25,7 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final AmazonS3 amazonS3;
-    private final String bucketName = "photosphere-bucket";
+    private final String bucketName = "photo-test";
 
     @Autowired
     public PostService(PostRepository postRepository, AmazonS3 amazonS3) {
