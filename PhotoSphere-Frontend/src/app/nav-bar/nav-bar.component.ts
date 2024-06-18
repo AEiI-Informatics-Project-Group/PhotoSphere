@@ -38,6 +38,9 @@ export class NavBarComponent implements OnInit {
 
   onNavItemClick(item: string): void {
     console.log(`${item} clicked`);
+    if(item == 'Help') {
+      this.router.navigate(['/HelpPage']);
+    }
     if(item == 'Popular') {
       this.router.navigate(['/PopularPhotoPage']);
     }
