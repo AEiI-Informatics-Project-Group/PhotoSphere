@@ -10,8 +10,37 @@ CREATE TABLE IF NOT EXISTS app_user
     gender       VARCHAR(255),
     day_of_birth DATE,
     description  TEXT,
-    image        VARCHAR(255)
+    image        VARCHAR(255),
+    account_locked BOOLEAN NOT NULL,
+    enabled      BOOLEAN NOT NULL
+
     );
+
+-- Role Table
+CREATE TABLE IF NOT EXISTS role
+(
+    id           BIGSERIAL PRIMARY KEY,
+    name         VARCHAR(255) UNIQUE
+
+);
+
+-- User role Table
+CREATE TABLE IF NOT EXISTS app_user_roles
+(
+    roles_id BIGINT NOT NULL REFERENCES role,
+    users_id BIGINT NOT NULL REFERENCES app_user
+);
+
+-- Token Table
+CREATE TABLE IF NOT EXISTS  token
+(
+    created_at   TIMESTAMP(6),
+    expires_at   TIMESTAMP(6),
+    id           BIGINT NOT NULL PRIMARY KEY,
+    user_id      BIGINT NOT NULL REFERENCES app_user,
+    validated_at TIMESTAMP(6),
+    token        VARCHAR(255)
+);
 
 -- Post Table
 CREATE TABLE IF NOT EXISTS post
