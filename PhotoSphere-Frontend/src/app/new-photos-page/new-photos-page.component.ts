@@ -37,18 +37,21 @@ export class NewPhotosPageComponent implements OnInit{
       (posts: Post[]) => {
         console.log("Current time: ", now);
         console.log("24 hours ago: ", last24Hours);
+        console.log("Retrieved posts: ", posts);
+
 
         this.posts = posts.filter(post => {
-          const createdAt = Number(post.createdAt);
-          const postDate = new Date(createdAt * 1000);
+          const createdAt = post.createdAt; // ISO 8601 string
+          const postDate = new Date(createdAt);
+          console.log(`created at ${createdAt}, postDate ${postDate}`);
           console.log(`Post ID: ${post.id}, Created At: ${postDate.toLocaleString()}, Is Recent: ${postDate >= last24Hours}`);
           return postDate >= last24Hours && !post.private;
         });
 
         this.posts.sort((a, b) => {
-          const dateA = new Date(Number(a.createdAt) * 1000);
-          const dateB = new Date(Number(b.createdAt) * 1000);
-          return dateB.getTime() - dateA.getTime();
+          const dateA = new Date(a.createdAt).getTime();
+          const dateB = new Date(b.createdAt).getTime();
+          return dateB - dateA;
         });
         this.loadPostImages();
       },
@@ -59,6 +62,7 @@ export class NewPhotosPageComponent implements OnInit{
   }
 
   loadPostImages(): void {
+    this.postImages = [];
     this.posts.forEach(post => {
       this.postService.downloadPostImage(post.id).subscribe(
         (imageBlob: Blob) => {
