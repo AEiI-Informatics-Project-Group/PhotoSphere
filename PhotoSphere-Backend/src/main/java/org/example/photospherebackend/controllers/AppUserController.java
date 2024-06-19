@@ -1,6 +1,9 @@
 package org.example.photospherebackend.controllers;
 
+import org.example.photospherebackend.DTOs.AppUserDTO;
+import org.example.photospherebackend.DTOs.CommentDTO;
 import org.example.photospherebackend.models.AppUser;
+import org.example.photospherebackend.models.Comment;
 import org.example.photospherebackend.services.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -47,6 +50,11 @@ public class AppUserController {
     @GetMapping("/by-email/{email}")
     public Optional<AppUser> getUserByEmail(@PathVariable String email) {
         return appUserService.getUserByEmail(email);
+    }
+
+    @GetMapping("/get-id-of-user/{email}")
+    public Optional<Integer> getIdOfUser(@PathVariable String email) {
+        return appUserService.getIdOfUser(email);
     }
 
     @PostMapping
@@ -134,6 +142,20 @@ public class AppUserController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    private AppUserDTO convertToDTO(AppUser user) {
+        AppUserDTO appUserDTO = new AppUserDTO();
+        appUserDTO.setId(user.getId());
+        appUserDTO.setUsername(user.getUsername());
+        appUserDTO.setFirstName(user.getFirstName());
+        appUserDTO.setLastName(user.getLastName());
+        appUserDTO.setEmail(user.getEmail());
+        appUserDTO.setGender(user.getGender());
+        appUserDTO.setDayOfBirth(user.getDayOfBirth());
+        appUserDTO.setDescription(user.getDescription());
+        appUserDTO.setImage(user.getImage());
+        return appUserDTO;
     }
 
 }

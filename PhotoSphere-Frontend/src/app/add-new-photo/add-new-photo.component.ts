@@ -109,7 +109,7 @@ export class AddNewPhotoComponent implements OnInit {
         if (this.selectedPhoto) {
           this.uploadImageAndSavePost(createdPost.id);
         } else {
-          const userId = this.authService.loggedUser.id;
+          var userId = this.authService.loggedUser.id;
           this.router.navigate(['/ProfilePage', userId]);
         }
       },
