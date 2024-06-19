@@ -22,7 +22,7 @@ import {AuthenticationService} from "../open-api-services/services/authenticatio
 export class RegistrationPageComponent {
   email: string = '';
   password: string = '';
-  user: User = this.userService.blankUser;
+  //user: User = this.userService.blankUser;
   errorMsg: Array<string> = [];
   gender: string[] = ["Male", "Female", "Other"];
   registerRequest: RegistrationRequest = {
@@ -40,13 +40,6 @@ export class RegistrationPageComponent {
 
 
   signUp(signUpForm: NgForm) {
-    this.registerRequest.dayOfBirth = signUpForm.value.dayOfBirth
-    this.registerRequest.email = signUpForm.value.email
-    this.registerRequest.firstName = signUpForm.value.firstName
-    this.registerRequest.gender = signUpForm.value.gender
-    this.registerRequest.lastName = signUpForm.value.lastName
-    this.registerRequest.password = signUpForm.value.password
-    this.registerRequest.username = signUpForm.value.username
     this.errorMsg = [];
     this.authService.register({
       body: this.registerRequest

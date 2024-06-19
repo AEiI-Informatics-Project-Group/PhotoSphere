@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
@@ -33,23 +34,30 @@ public class AppUserController {
     }
 
     @GetMapping
-    public List<AppUser> getAllUsers() {
-        return appUserService.getAllUsers();
+    public List<AppUserDTO> getAllUsers() {
+        List<AppUser> users = appUserService.getAllUsers();
+        return users.stream().map(this::convertToDTO).collect(Collectors.toList());
+
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AppUser> getUserById(@PathVariable Long id) {
+    public ResponseEntity<AppUserDTO> getUserById(@PathVariable Long id) {
         Optional<AppUser> user = appUserService.getUserById(id);
         if (user.isPresent()) {
-            return ResponseEntity.ok(user.get());
+            return ResponseEntity.ok(convertToDTO(user.get()));
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping("/by-email/{email}")
-    public Optional<AppUser> getUserByEmail(@PathVariable String email) {
-        return appUserService.getUserByEmail(email);
+    public ResponseEntity<AppUserDTO> getUserByEmail(@PathVariable String email) {
+        Optional<AppUser> existingUserOpt = appUserService.getUserByEmail(email);
+        if (!existingUserOpt.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        AppUser existingUser = existingUserOpt.get();
+        return ResponseEntity.ok(convertToDTO(existingUser));
     }
 
     @GetMapping("/get-id-of-user/{email}")
@@ -63,7 +71,7 @@ public class AppUserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AppUser> updateUser(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
+    public ResponseEntity<AppUserDTO> updateUser(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
         Optional<AppUser> existingUserOpt = appUserService.getUserById(id);
         if (!existingUserOpt.isPresent()) {
             return ResponseEntity.notFound().build();
@@ -80,7 +88,7 @@ public class AppUserController {
         });
 
         AppUser updatedUser = appUserService.updateUser(existingUser);
-        return ResponseEntity.ok(updatedUser);
+        return ResponseEntity.ok(convertToDTO(updatedUser));
     }
 
     @DeleteMapping("/{id}")

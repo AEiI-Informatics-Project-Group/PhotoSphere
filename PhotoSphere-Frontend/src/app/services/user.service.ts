@@ -12,18 +12,6 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  createUser(user: User): Observable<User> {
-    return this.http.post<User>(this.apiUrl, user);
-  }
-
-  // getIdOfUser(email: string): Observable<number> {
-  //   return this.http.get<number>(`${this.apiUrl}/get-id-of-user/${email}`);
-  // }
-
-
-  getIdOfUser(email: string): Observable<number> {
-    return this.http.get<number>(`${this.apiUrl}/get-id-of-user/${email}`);
-  }
 
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl)
@@ -73,7 +61,6 @@ export class UserService {
   firstName: "",
   lastName: "",
   email: "",
-  password: "",
   gender: "",
   dayOfBirth: [],
   description: "",
