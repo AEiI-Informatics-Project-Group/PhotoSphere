@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {User} from "../models/user.model";
 import {AuthService} from "./auth.service";
@@ -16,6 +16,14 @@ export class UserService {
     return this.http.post<User>(this.apiUrl, user);
   }
 
+  // getIdOfUser(email: string): Observable<number> {
+  //   return this.http.get<number>(`${this.apiUrl}/get-id-of-user/${email}`);
+  // }
+
+
+  getIdOfUser(email: string): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/get-id-of-user/${email}`);
+  }
 
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl)

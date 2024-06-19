@@ -46,10 +46,6 @@
         <button type="submit" [disabled]="!signUpForm.valid" class="submit-btn" >Create Account</button>
       </form>
       <div class="separator">OR</div>
-      <button class="social-login" (click)="handleGoogleLogin()" tabindex="0">
-        <img src="assets/icons/google-logo.png" alt="Log in with Google" class="social-icon">
-        Log in with Google
-      </button>
       <div class="alternative-option">
         Do you already have an account?
         <a routerLink="/logging" class="sign-in-link">Log in</a>
