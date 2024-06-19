@@ -147,7 +147,7 @@ export class ProfilePageComponent implements OnInit {
   fetchProfileUsernameDescription(userId: number) {
     this.userService.getUserById(userId).subscribe(
       (user: User) => {
-        this.profileUsername = user.username;
+        this.profileUsername = user.nickname;
         this.profileDescription = user.description;
       },
       error => {

@@ -60,7 +60,7 @@
     <section class="comment-section">
       <div class="comment" *ngFor="let comment of comments; let i = index">
         <div class="comment-content">
-          <span class="username" (click)="navigateToUserProfile(comment.userId)">{{ comment.username }}:</span>
+          <span class="username" (click)="navigateToUserProfile(comment.userId)">{{ comment.nickname }}:</span>
           <span class="comment-text">{{ comment.text }}</span>
           <img *ngIf="comment.userId === this.authService.loggedUser.id" [src]="binIconSrc" alt="Delete" class="bin-icon" (click)="onDeleteComment(i)">
         </div>

@@ -1,6 +1,6 @@
 -- Insert sample users
 -- password for exemplary users is ex
-INSERT INTO app_user (username, first_name, last_name, email, password, gender, day_of_birth, description, image, account_locked, enabled)
+INSERT INTO app_user (nickname, first_name, last_name, email, password, gender, day_of_birth, description, image, account_locked, enabled)
 VALUES
     ('CrazyJohnny', 'John', 'Doe', 'JohnDoe12@gmail.com', '$2a$10$U2QArxDtM0o6tzpIdlbWoe0LArso5yqv9PEy9Sbt/.2G7ZZKSxGBm', 'Male', '2001-01-01', 'Loves adventure sports and video games', null, false, true),
     ('JustJane777', 'Jane', 'Smith', 'janejanejane@yahoo.com', '$2a$10$U2QArxDtM0o6tzpIdlbWoe0LArso5yqv9PEy9Sbt/.2G7ZZKSxGBm', 'Female', '1992-10-02', 'Avid reader and coffee enthusiast', null, false, true),

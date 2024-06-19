@@ -97,13 +97,39 @@ export class ZoomInPhotoComponent implements OnInit {
   fetchCreatorUsername(userId: number) {
     this.userService.getUserById(userId).subscribe(
       (user: User) => {
-        this.creatorUsername = user.username;
-        this.creatorImageUrl = this.sanitizer.bypassSecurityTrustUrl(`http://localhost:8080/api/users/${userId}/download-image`);
+        this.creatorUsername = user.nickname;
+        if (user.id !== undefined) {
+          this.loadUserProfileImage(user.id);
+        }
       },
       error => {
         console.error('Failed to fetch creator username: ', error);
       }
     );
+  }
+
+  loadUserProfileImage(creatorid: number ): void {
+    if (creatorid !== undefined) {
+      this.userService.downloadUserImage(creatorid).subscribe(
+        (imageBlob: Blob) => {
+          if (imageBlob && imageBlob.size > 0) {
+            try {
+              const url = URL.createObjectURL(imageBlob);
+              this.creatorImageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
+            } catch (error) {
+              console.error('Failed to create object URL for profile image:', error);
+            }
+          } else {
+            console.error('Received empty blob for profile image');
+          }
+        },
+        (error) => {
+          console.error('Failed to load user image:', error);
+        }
+      );
+    } else {
+      console.error('User ID is undefined');
+    }
   }
 
   scrollToTop() {

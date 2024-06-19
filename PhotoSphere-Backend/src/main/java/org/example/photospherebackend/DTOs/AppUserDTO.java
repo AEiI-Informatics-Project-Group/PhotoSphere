@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 public class AppUserDTO {
     private Long id;
-    private String username;
+    private String nickname;
     private String firstName;
     private String lastName;
     private String email;

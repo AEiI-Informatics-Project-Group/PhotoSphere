@@ -82,7 +82,7 @@ export class EditProfileComponent implements OnInit {
     const updateUserData: Partial<User> = {
       firstName: this.authService.loggedUser.firstName,
       lastName: this.authService.loggedUser.lastName,
-      username: this.authService.loggedUser.username,
+      nickname: this.authService.loggedUser.nickname,
       description: this.authService.loggedUser.description
     };
 

@@ -25,8 +25,8 @@ public class AppUser implements UserDetails, Principal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username", nullable = false)
-    private String username;
+    @Column(name = "nickname", nullable = false)
+    private String nickname;
 
     @Column(name = "first_name")
     private String firstName;

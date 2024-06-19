@@ -155,7 +155,7 @@ public class AppUserController {
     private AppUserDTO convertToDTO(AppUser user) {
         AppUserDTO appUserDTO = new AppUserDTO();
         appUserDTO.setId(user.getId());
-        appUserDTO.setUsername(user.getUsername());
+        appUserDTO.setNickname(user.getNickname());
         appUserDTO.setFirstName(user.getFirstName());
         appUserDTO.setLastName(user.getLastName());
         appUserDTO.setEmail(user.getEmail());

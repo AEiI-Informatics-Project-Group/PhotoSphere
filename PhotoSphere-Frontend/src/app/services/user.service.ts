@@ -57,7 +57,7 @@ export class UserService {
 
   blankUser : User = {
   id: 0,
-  username: "",
+    nickname: "",
   firstName: "",
   lastName: "",
   email: "",

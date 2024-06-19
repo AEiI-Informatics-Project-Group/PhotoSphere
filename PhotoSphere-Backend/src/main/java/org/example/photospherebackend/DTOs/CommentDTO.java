@@ -13,5 +13,5 @@ public class CommentDTO {
     private Long userId;
     private String text;
     private Instant createdAt;
-    private String username;
+    private String nickname;
 }

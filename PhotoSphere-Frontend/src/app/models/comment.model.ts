@@ -4,5 +4,5 @@ export interface Comment {
   userId?: number;
   text: string;
   createdAt: Date;
-  username: string;
+  nickname: string;
 }
