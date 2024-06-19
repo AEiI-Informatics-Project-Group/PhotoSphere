@@ -15,16 +15,7 @@ import {RegistrationRequest} from "../open-api-services/models/registration-requ
 export class AuthService {
   public isLoggedIn: boolean = false;
   public loggedUser: User = this.userService.blankUser;
-  registerRequest: RegistrationRequest = {
-    dayOfBirth: '',
-    email: '',
-    firstName: '',
-    gender: '',
-    lastName: '',
-    password: '',
-    username: ''
-  };
-  errorMessage: string = "";
+
 
   errorMsg: Array<string> = [];
   authRequest: AuthenticationRequest = {email: '', password: ''};
@@ -74,33 +65,6 @@ export class AuthService {
       }
     });
   }
-
-
-  // logIn(email: string, password: string) {
-  //   this.errorMessage = "";
-  //   this.userService.getUserByEmail(email).pipe(
-  //     map((user) => {
-  //       if (user) {
-  //         if (password === user.password) {
-  //           this.loggedUser = user;
-  //           this.isLoggedIn = true;
-  //           this.router.navigate(['/PopularPhotoPage']);
-  //         } else {
-  //           //console.error('Incorrect password');
-  //           alert('Incorrect login data');
-  //         }
-  //       } else {
-  //         //console.error('User not found');
-  //         alert('User not found');
-  //       }
-  //     }),
-  //     catchError((error) => {
-  //       //console.error('Error fetching user:', error);
-  //       alert('Error fetching user');
-  //       return of(null);
-  //     })
-  //   ).subscribe();
-  // }
 
   logOut() {
     this.isLoggedIn = false;

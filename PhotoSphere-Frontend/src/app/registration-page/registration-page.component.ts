@@ -37,32 +37,7 @@ export class RegistrationPageComponent {
   constructor(private userService: UserService, private router: Router, private authService: AuthenticationService) {
   }
 
-  private getDateAsArray(dateString: string): number[] {
-    const parts = dateString.split('-').map(part => parseInt(part, 10));
-    return parts; // parts will be an array like [year, month, day]
-  }
 
-  // signUp(signUpForm: NgForm) {
-  //   console.log(signUpForm.value.dayOfBirth);
-  //   const dateArray = this.getDateAsArray(signUpForm.value.dayOfBirth);
-  //   signUpForm.value.dayOfBirth = dateArray;
-  //   console.log('Date as Array:', dateArray);
-  //   if (signUpForm.valid) {
-  //      this.userService.createUser(this.user).subscribe({
-  //       next: (createdUser) => {
-  //         console.log('User created successfully:', createdUser);
-  //         alert('User created successfully');
-  //         this.router.navigate(['/PopularPhotoPage']);
-  //         signUpForm.resetForm();
-  //         this.user = this.userService.blankUser;  // Reset user object to initial state
-  //       },
-  //       error: (error) => {
-  //         console.error('Error creating user:', error);
-  //         alert('Error creating user');
-  //       }
-  //     });
-  //   }
-  // }
 
   signUp(signUpForm: NgForm) {
     this.registerRequest.dayOfBirth = signUpForm.value.dayOfBirth
