@@ -7,5 +7,5 @@ export interface RegistrationRequest {
   gender: string;
   lastName: string;
   password: string;
-  username: string;
+  nickname: string;
 }

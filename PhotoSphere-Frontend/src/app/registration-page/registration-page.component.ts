@@ -32,7 +32,7 @@ export class RegistrationPageComponent {
     gender: '',
     lastName: '',
     password: '',
-    username: ''
+    nickname: ''
   };
   constructor(private userService: UserService, private router: Router, private authService: AuthenticationService) {
   }
